@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投資風險承受能力評估</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .hidden {
+            display: none;
+        }
+        img {
+            max-width: 100px; /* 調整圖像大小 */
+            height: auto;
+        }
+        .result {
+            margin-top: 20px;
+        }
+		canvas {
+            max-width: 400px; /* 限制餅圖的最大寬度 */
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>投資風險承受能力評估</h1>
+    <form id="riskForm">
+        <label for="age">您的年齡是？</label><br>
+        <select id="age" name="age" required>
+            <option value="18-30">18-30歲（年輕是資本，但也需謹慎）</option>
+            <option value="31-45">31-45歲（平衡風險與回報）</option>
+            <option value="46-60">46-60歲（接近退休，需要穩健）</option>
+            <option value="60+">60歲以上（以保本為主）</option>
+        </select><br><br>
+
+        <label for="debt">您的負債水平如何？</label><br>
+        <select id="debt" name="debt" required>
+            <option value="none">無負債（資金運用靈活）</option>
+            <option value="low">負債水平低於收入的 10%（負債控制良好）</option>
+            <option value="medium">負債水平在收入的 10-30% 之間（需注意負債風險）</option>
+            <option value="high">負債水平超過收入的 30%（建議減少負債）</option>
+        </select><br><br>
+
+        <label for="family">您的家庭負擔主要是？</label><br>
+        <select id="family" name="family" required>
+            <option value="none">無家庭負擔（資金可靈活運用）</option>
+            <option value="spouse_or_one_child">只有配偶或一個小孩（適度分散風險）</option>
+            <option value="two_or_more_children">有兩個或更多小孩（需考慮未來支出）</option>
+            <option value="supporting_elders_and_children">需要撫養老人和小孩（以穩健投資為主）</option>
+        </select><br><br>
+
+        <label for="extra_funds">您有一筆額外的資金，您會怎麼處理這筆錢？</label><br>
+        <select id="extra_funds" name="extra_funds" required>
+            <option value="bank">存入銀行，獲取穩定的利息（安全第一）</option>
+            <option value="bank_and_low_risk">部分存入銀行，部分用於低風險的投資（平衡收益與風險）</option>
+            <option value="medium_risk">大部分用於中等風險的投資，期望獲取較高回報（需謹慎評估）</option>
+            <option value="high_risk">全部用於高風險的投資，期望獲取最大回報（高風險高回報）</option>
+        </select><br><br>
+
+        <label for="stock_growth">如果您聽說一隻股票在短期內大幅上漲，您會怎麼做？</label><br>
+        <select id="stock_growth" name="stock_growth" required>
+            <option value="no_buy">不會考慮購買，因為風險太大（穩健投資）</option>
+            <option value="wait">會觀察一段時間，再決定是否購買（謹慎行事）</option>
+            <option value="small_buy">會購買少量股票，嘗試一下（小額嘗試）</option>
+            <option value="immediate_buy">立即購買，希望趁機獲利（高風險行為）</option>
+        </select><br><br>
+
+        <label for="stock_drop">當您發現自己投資的某隻股票價格大幅下跌，您會怎麼做？</label><br>
+        <select id="stock_drop" name="stock_drop" required>
+            <option value="sell">立即賣出，避免進一步的損失（控制風險）</option>
+            <option value="anxious">感到焦慮，但會觀察一段時間再做決定（謹慎處理）</option>
+            <option value="adjust">保持冷静，根據市場情況進行調整（理性應對）</option>
+            <option value="long_term">完全不擔心，相信長期投資能夠回本（長期投資）</option>
+        </select><br><br>
+
+        <label for="preparation">您在投資前會怎樣做準備？</label><br>
+        <select id="preparation" name="preparation" required>
+            <option value="cautious">非常謹慎，會花很多時間研究和比較（充分準備）</option>
+            <option value="basic_research">會進行基本研究後做出決定（基本了解）</option>
+            <option value="intuition">相信自己的直覺，較快速做出決定（直覺決策）</option>
+            <option value="bold">大膽投資，幾乎不做太多研究（冒險行為）</option>
+        </select><br><br>
+
+        <label for="bad_performance">如果投資組合中的某項投資表現不佳，您會怎麼做？</label><br>
+        <select id="bad_performance" name="bad_performance" required>
+            <option value="sell">賣出這項投資，避免進一步虧損（風險控制）</option>
+            <option value="adjust_proportion">調整投資比例，但保持觀望（靈活調整）</option>
+            <option value="hold">保持現狀，相信市場會回升（耐心等待）</option>
+            <option value="buy_more">加碼買入，相信低價是買入的好機會（冒險加碼）</option>
+        </select><br><br>
+
+        <label for="investment_goal">您的投資目標通常是什麼？</label><br>
+        <select id="investment_goal" name="investment_goal" required>
+            <option value="preservation">保本，獲取穩定的回報</option>
+            <option value="moderate_growth">部分保本，追求適度增值</option>
+            <option value="growth">追求資本增值，承受一定風險</option>
+            <option value="high_growth">追求高額回報，願意承受高風險</option>
+        </select><br><br>
+
+        <button type="submit">提交</button>
+    </form>
+
+    <div id="result" class="hidden result">
+        <h2>投資風險承受能力評估結果</h2>
+        <p id="evaluation"></p>
+        		
+		<h3>現代投資組合理論（MPT）介紹</h3>
+        <p>現代投資組合理論（Modern Portfolio Theory, MPT）是一種旨在優化投資組合回報與風險平衡的理論。由哈里·馬科維茲於1952年提出，該理論強調通過分散投資來降低整體風險，並最大化預期回報。MPT的核心概念是“有效前沿”，即在相同風險水平下能夠提供最高回報的投資組合。</p>
+        <p>MPT被廣泛應用於投資管理中，並被證明在實踐中具有良好的效果，因此在金融界享有高度的可信性。</p>
+		
+		<h3>基於現代投資組合理論（MPT）的投資分佈建議</h3>
+        <p id="investmentAdvice"></p>
+        <canvas id="investmentChart"></canvas>
+
+        
+    </div>
+	
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+        document.getElementById('riskForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // 獲取表單數據
+            const formData = new FormData(event.target);
+            const age = formData.get('age');
+            const debt = formData.get('debt');
+            const family = formData.get('family');
+            const extraFunds = formData.get('extra_funds');
+            const stockGrowth = formData.get('stock_growth');
+            const stockDrop = formData.get('stock_drop');
+            const preparation = formData.get('preparation');
+            const badPerformance = formData.get('bad_performance');
+            const investmentGoal = formData.get('investment_goal');
+            
+            // 評估結果和投資建議
+            let evaluationResult = "";
+            let investmentAdvice = "";
+            let chartData = [];
+
+            if (investmentGoal === "preservation") {
+                evaluationResult = "您是保守型投資者";
+                investmentAdvice = "建議將大部分資金投入於低風險的理財產品，如定期存款、香港債券和保險儲蓄計劃，並保持小部分資金於強積金（MPF）。";
+                chartData = [50, 10, 10, 10, 20]; // 定期存款、股票、債券、強積金（MPF）、保險儲蓄計劃
+            } else if (investmentGoal === "moderate_growth") {
+                evaluationResult = "您是穩健型投資者";
+                investmentAdvice = "建議將資金分配於低至中等風險的投資產品，如定期存款、香港債券、強積金（MPF）和部分香港股票，保持資本的穩定增值。";
+                chartData = [30, 20, 20, 10, 20]; // 定期存款、股票、債券、強積金（MPF）、保險儲蓄計劃
+            } else if (investmentGoal === "growth") {
+                evaluationResult = "您是成長型投資者";
+                investmentAdvice = "建議將資金主要投入於中高風險的成長型投資，如香港股票和強積金（MPF），同時保持一定比例的定期存款和香港債券以分散風險。";
+                chartData = [20, 40, 20, 10, 10]; // 定期存款、股票、債券、強積金（MPF）、保險儲蓄計劃
+            } else if (investmentGoal === "high_growth") {
+                evaluationResult = "您是進取型投資者";
+                investmentAdvice = "建議將資金大部分投入於高風險高回報的投資產品，如香港股票和強積金（MPF），並保持少部分資金於定期存款和保險儲蓄計劃以對沖風險。";
+                chartData = [10, 60, 10, 10, 10]; // 定期存款、股票、債券、強積金（MPF）、保險儲蓄計劃
+            }
+
+            // 顯示評估結果
+            document.getElementById('evaluation').textContent = evaluationResult;
+            document.getElementById('investmentAdvice').textContent = investmentAdvice;
+            document.getElementById('result').classList.remove('hidden');
+
+            // 繪製餅圖
+            const ctx = document.getElementById('investmentChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['定期存款', '股票', '債券', '強積金（MPF）', '保險儲蓄計劃'],
+                    datasets: [{
+                        data: chartData,
+                        backgroundColor: ['#4CAF50', '#FF9800', '#FFC107', '#2196F3', '#9C27B0'],
+                        borderWidth: 1 // 調整邊框寬度
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += Math.round(context.raw * 100) / 100 + '%';
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
