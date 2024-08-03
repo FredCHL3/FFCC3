@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device=width, initial-scale=1.0">
+    <title>財務需要分析表 V2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+        }
+        .section label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .section input, .section select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .result {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+        .chart-container {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>財務需要分析表 Financial Needs Analysis Form</h1>
+
+        <div class="section">
+            <h2>個人資料 Personal Information</h2>
+            <label for="name">姓名 Name:</label>
+            <input type="text" id="name">
+
+            <label for="age">年齡 Age:</label>
+            <input type="number" id="age">
+        </div>
+
+        <div class="section">
+            <h2>財務狀況 Financial Situation</h2>
+            <label for="monthly_salary">月薪 Monthly Salary (港幣 HKD):</label>
+            <input type="number" id="monthly_salary">
+
+            <label for="annual_salary_growth_rate">預期年薪增長率 Expected Annual Salary Growth Rate (%):</label>
+            <input type="number" id="annual_salary_growth_rate">
+
+            <label for="investment_monthly_income">投資每月收入 Investment Monthly Income (港幣 HKD):</label>
+            <input type="number" id="investment_monthly_income">
+
+            <label for="annual_return_rate">個人投資每年回報率 Expected Annual Return Rate (%):</label>
+            <input type="number" id="annual_return_rate">
+
+            <label for="average_monthly_expenses">每月平均開支 Average Monthly Expenses (港幣 HKD):</label>
+            <input type="number" id="average_monthly_expenses">
+
+            <label for="family_monthly_expenses">每月家庭開支 Family Monthly Expenses (港幣 HKD):</label>
+            <input type="number" id="family_monthly_expenses">
+
+            <label for="years_to_support_family">供養家庭年數 Years to Support Family:</label>
+            <input type="number" id="years_to_support_family">
+
+            <label for="unexpected_expenses">非預期開支 Unexpected Expenses (港幣 HKD):</label>
+            <input type="number" id="unexpected_expenses">
+
+            <label for="current_assets">流動資產 Current Assets (港幣 HKD):</label>
+            <input type="number" id="current_assets">
+
+            <label for="fixed_assets">固定資產 Fixed Assets (港幣 HKD):</label>
+            <input type="number" id="fixed_assets">
+
+            <label for="outstanding_debts">未償還債務 Outstanding Debts (港幣 HKD):</label>
+            <input type="number" id="outstanding_debts">
+
+            <label for="mortgage_loans">按揭貸款 Mortgage Loans (港幣 HKD):</label>
+            <input type="number" id="mortgage_loans">
+
+            <label for="annual_inflation_rate">預期每年通脹率 Expected Annual Inflation Rate (%):</label>
+            <input type="number" id="annual_inflation_rate">
+        </div>
+
+        <div class="section">
+            <h2>退休計劃 Retirement Plan</h2>
+            <label for="expected_monthly_expenses_retirement">預期退休每月支出 Expected Monthly Expenses in Retirement (港幣 HKD):</label>
+            <input type="number" id="expected_monthly_expenses_retirement">
+
+            <label for="unanticipated_retirement_expenses">非預期退休支出 Unexpected Retirement Expenses (港幣 HKD):</label>
+            <input type="number" id="unanticipated_retirement_expenses">
+
+            <label for="expected_time_to_achieve">預期達成年期 Expected Time to Achieve (年 Years):</label>
+            <input type="number" id="expected_time_to_achieve">
+
+            <label for="expected_retirement_age">預計退休年齡 Expected Retirement Age (歲 Years):</label>
+            <input type="number" id="expected_retirement_age">
+
+            <label for="desired_monthly_income">期望月收入 Desired Monthly Income (港幣 HKD):</label>
+            <input type="number" id="desired_monthly_income">
+
+            <label for="main_income_source">主要收入來源 Main Income Source:</label>
+            <input type="text" id="main_income_source">
+
+            <label for="residence_after_retirement">退休後居住地 Residence After Retirement:</label>
+            <select id="residence_after_retirement">
+                <option value="local">本地 Local</option>
+                <option value="overseas">海外 Overseas</option>
+            </select>
+
+            <label>旅遊或其他活動 Travel or Other Activities:</label>
+            <label><input type="radio" name="travel" value="yes"> 是 Yes</label>
+            <label><input type="radio" name="travel" value="no"> 否 No</label>
+        </div>
+
+        <div class="section">
+            <h2>理財產品興趣與熟悉程度 Interest and Familiarity with Financial Products</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>產品 Products</th>
+                        <th>熟悉 Familiar</th>
+                        <th>知道 Aware</th>
+                        <th>不知道 Unaware</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>定期存款 Term Deposit</td>
+                        <td><input type="radio" name="term_deposit" value="熟悉"></td>
+                        <td><input type="radio" name="term_deposit" value="知道"></td>
+                        <td><input type="radio" name="term_deposit" value="不知道"></td>
+                    </tr>
+                    <tr>
+                        <td>儲蓄保險 Savings Insurance</td>
+                        <td><input type="radio" name="savings_insurance" value="熟悉"></td>
+                        <td><input type="radio" name="savings_insurance" value="知道"></td>
+                        <td><input type="radio" name="savings_insurance" value="不知道"></td>
+                    </tr>
+                    <tr>
+                        <td>股票 Stocks</td>
+                        <td><input type="radio" name="stocks" value="熟悉"></td>
+                        <td><input type="radio" name="stocks" value="知道"></td>
+                        <td><input type="radio" name="stocks" value="不知道"></td>
+                    </tr>
+                    <tr>
+                        <td>債券 Bonds</td>
+                        <td><input type="radio" name="bonds" value="熟悉"></td>
+                        <td><input type="radio" name="bonds" value="知道"></td>
+                        <td><input type="radio" name="bonds" value="不知道"></td>
+                    </tr>
+                    <tr>
+                        <td>互惠基金 Mutual Funds</td>
+                        <td><input type="radio" name="mutual_funds" value="熟悉"></td>
+                        <td><input type="radio" name="mutual_funds" value="知道"></td>
+                        <td><input type="radio" name="mutual_funds" value="不知道"></td>
+                    </tr>
+                    <tr>
+                        <td>房地產投資信託基金 REITs</td>
+                        <td><input type="radio" name="reits" value="熟悉"></td>
+                        <td><input type="radio" name="reits" value="知道"></td>
+                        <td><input type="radio" name="reits" value="不知道"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>計算 Calculate</h2>
+            <button onclick="calculateRetirementGap()">計算 Calculate</button>
+        </div>
+
+        <div class="section result" id="results">
+            <h2>結果 Results</h2>
+            <p>目前收入與退休收入之間的差距: <span class="highlight" id="retirement_gap"></span></p>
+            <p>要將差距拉近，個人投資回報率最少需要每年多: <span class="highlight" id="required_return_rate"></span></p>
+            <p id="surprise_message"></p>
+            <div class="chart-container">
+                <canvas id="retirementChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateRetirementGap() {
+            const expectedMonthlyExpensesRetirement = parseFloat(document.getElementById('expected_monthly_expenses_retirement').value) || 0;
+            const unanticipatedRetirementExpenses = parseFloat(document.getElementById('unanticipated_retirement_expenses').value) || 0;
+            const expectedTimeToAchieve = parseFloat(document.getElementById('expected_time_to_achieve').value) || 0;
+            const desiredMonthlyIncome = parseFloat(document.getElementById('desired_monthly_income').value) || 0;
+            const annualReturnRate = parseFloat(document.getElementById('annual_return_rate').value) || 0;
+            const annualInflationRate = parseFloat(document.getElementById('annual_inflation_rate').value) || 0;
+
+            const totalExpectedExpenses = (expectedMonthlyExpensesRetirement * 12 * expectedTimeToAchieve) + unanticipatedRetirementExpenses;
+            const requiredSavings = desiredMonthlyIncome * 12 * expectedTimeToAchieve;
+            const retirementGap = totalExpectedExpenses - requiredSavings;
+
+            const currentAnnualReturn = annualReturnRate / 100;
+            const inflationAdjustedReturn = ((1 + currentAnnualReturn) / (1 + annualInflationRate / 100)) - 1;
+            const requiredReturnRate = retirementGap > 0 ? ((retirementGap / requiredSavings) / expectedTimeToAchieve) * 100 : 0;
+
+            document.getElementById('retirement_gap').innerText = retirementGap.toFixed(2) + ' 港幣 HKD';
+            document.getElementById('required_return_rate').innerText = requiredReturnRate.toFixed(2) + ' %';
+
+            const surpriseMessage = retirementGap > 0 ? "驚訝嗎？你需要更多的儲蓄和更高的投資回報率來實現你的退休目標！" : "恭喜！你已經準備好迎接舒適的退休生活！";
+            document.getElementById('surprise_message').innerText = surpriseMessage;
+
+            const ctx = document.getElementById('retirementChart').getContext('2d');
+            const retirementChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['預期退休總支出 Expected Total Retirement Expenses', '實際需要 Retirement Gap'],
+                    datasets: [{
+                        label: '金額 (港幣 HKD)',
+                        data: [totalExpectedExpenses, retirementGap],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
