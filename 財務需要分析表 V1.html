@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>財務需要分析表 Financial Needs Analysis Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .section-header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+        .icon {
+            width: 24px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .input-cell {
+            display: flex;
+            align-items: center;
+        }
+        .input-cell input, .input-cell select {
+            flex-grow: 1;
+            padding: 4px;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>財務需要分析表 Financial Needs Analysis Form</h1>
+
+    <table>
+        <tr class="section-header">
+            <td colspan="2">個人資料 Personal Information</td>
+        </tr>
+        <tr>
+            <td>姓名（姓氏先排） Name (Last Name First)</td>
+            <td><input type="text" id="name" name="name"></td>
+        </tr>
+        <tr>
+            <td>聯絡電話 Phone Number</td>
+            <td><input type="text" id="phone" name="phone"></td>
+        </tr>
+        <tr>
+            <td>電子郵件 Email</td>
+            <td><input type="email" id="email" name="email"></td>
+        </tr>
+        <tr>
+            <td>身份證號碼 ID Number</td>
+            <td><input type="text" id="id" name="id"></td>
+        </tr>
+        <tr>
+            <td>地址 Address</td>
+            <td><input type="text" id="address" name="address"></td>
+        </tr>
+
+        <tr class="section-header">
+            <td colspan="2">你儲蓄的金錢是為了什麼將來的打算 Savings Goals</td>
+        </tr>
+        <tr>
+            <td><img src="https://via.placeholder.com/24" class="icon">目標1 Goal 1</td>
+            <td class="input-cell">
+                <input type="text" id="goal1" name="goal1" placeholder="請填寫目標 Enter Goal">
+                金額 Amount: <input type="number" id="goal1-amount" name="goal1-amount"> 港幣 HKD，年期 Years:
+                <input type="number" id="goal1-years" name="goal1-years">
+            </td>
+        </tr>
+        <tr>
+            <td><img src="https://via.placeholder.com/24" class="icon">目標2 Goal 2</td>
+            <td class="input-cell">
+                <input type="text" id="goal2" name="goal2" placeholder="請填寫目標 Enter Goal">
+                金額 Amount: <input type="number" id="goal2-amount" name="goal2-amount"> 港幣 HKD，年期 Years:
+                <input type="number" id="goal2-years" name="goal2-years">
+            </td>
+        </tr>
+        <tr>
+            <td><img src="https://via.placeholder.com/24" class="icon">目標3 Goal 3</td>
+            <td class="input-cell">
+                <input type="text" id="goal3" name="goal3" placeholder="請填寫目標 Enter Goal">
+                金額 Amount: <input type="number" id="goal3-amount" name="goal3-amount"> 港幣 HKD，年期 Years:
+                <input type="number" id="goal3-years" name="goal3-years">
+            </td>
+        </tr>
+        <tr>
+            <td>其他目標 Other Goals</td>
+            <td><textarea id="other-goals" name="other-goals" rows="3"></textarea></td>
+        </tr>
+
+        <tr class="section-header">
+            <td colspan="2">財務狀況 Financial Situation</td>
+        </tr>
+        <tr>
+            <td>每月平均收入 Average Monthly Income</td>
+            <td><input type="number" id="monthly-income" name="monthly-income"> 港幣 HKD</td>
+        </tr>
+        <tr>
+            <td>每月平均開支 Average Monthly Expenses</td>
+            <td><input type="number" id="monthly-expenses" name="monthly-expenses"> 港幣 HKD</td>
+        </tr>
+        <tr>
+            <td>流動資產 Current Assets</td>
+            <td><input type="number" id="current-assets" name="current-assets"> 港幣 HKD</td>
+        </tr>
+        <tr>
+            <td>固定資產 Fixed Assets</td>
+            <td><input type="number" id="fixed-assets" name="fixed-assets"> 港幣 HKD</td>
+        </tr>
+        <tr>
+            <td>未償還債務 Outstanding Debts</td>
+            <td><input type="number" id="outstanding-debts" name="outstanding-debts"> 港幣 HKD</td>
+        </tr>
+        <tr>
+            <td>按揭貸款 Mortgage Loans</td>
+            <td><input type="number" id="mortgage-loans" name="mortgage-loans"> 港幣 HKD</td>
+        </tr>
+
+        <tr class="section-header">
+            <td colspan="2">退休計劃 Retirement Plan</td>
+        </tr>
+        <tr>
+            <td>預計退休年齡 Expected Retirement Age</td>
+            <td><input type="number" id="retirement-age" name="retirement-age"> 歲 Years</td>
+        </tr>
+        <tr>
+            <td>期望月收入 Desired Monthly Income</td>
+            <td><input type="number" id="expected-monthly-income" name="expected-monthly-income"> 港幣 HKD</td>
+        </tr>
+        <tr>
+            <td>主要收入來源 Main Income Source</td>
+            <td><input type="text" id="main-income-source" name="main-income-source"></td>
+        </tr>
+        <tr>
+            <td>退休後居住地 Residence After Retirement</td>
+            <td>
+                <select id="residence" name="residence">
+                    <option value="local">本地 Local</option>
+                    <option value="overseas">海外 Overseas</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>旅遊或其他活動 Travel or Other Activities</td>
+            <td class="input-cell">
+                是 Yes <input type="radio" id="travel-yes" name="travel" value="yes">
+                否 No <input type="radio" id="travel-no" name="travel" value="no">
+                ，預計每年支出 Estimated Annual Expense: <input type="number" id="annual-expense" name="annual-expense"> 港幣 HKD
+            </td>
+        </tr>
+
+        <tr class="section-header">
+            <td colspan="2">理財產品興趣與熟悉程度 Interest and Familiarity with Financial Products</td>
+        </tr>
+        <tr>
+            <td>定期存款 Term Deposit</td>
+            <td><input type="number" id="term-deposit" name="term-deposit" min="1" max="5"> （1-5）</td>
+        </tr>
+        <tr>
+            <td>儲蓄保險 Savings Insurance</td>
+            <td><input type="number" id="savings-insurance" name="savings-insurance" min="1" max="5"> （1-5）</td>
+        </tr>
+        <tr>
+            <td>股票 Stocks</td>
+            <td><input type="number" id="stocks" name="stocks" min="1" max="5"> （1-5）</td>
+        </tr>
+        <tr>
+            <td>債券 Bonds</td>
+            <td><input type="number" id="bonds" name="bonds" min="1" max="5"> （1-5）</td>
+        </tr>
+        <tr>
+            <td>互惠基金 Mutual Funds</td>
+            <td><input type="number" id="mutual-funds" name="mutual-funds" min="1" max="5"> （1-5）</td>
+        </tr>
+        <tr>
+            <td>房地產投資信託基金 REITs</td>
+            <td><input type="number" id="reits" name="reits" min="1" max="5"> （1-5）</td>
+        </tr>
+        <tr>
+            <td>其他產品 Other Products</td>
+            <td><input type="text" id="other-products" name="other-products"></td>
+        </tr>
+    </table>
+
+</body>
+</html>
