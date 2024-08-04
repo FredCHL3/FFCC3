@@ -1,211 +1,309 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>財務需要分析表 Financial Needs Analysis Form</title>
+    <title>財務需要分析表 V6</title>
     <style>
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+        }
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffeb3b;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
         }
         h1 {
             text-align: center;
-            color: #2c3e50;
+            color: #ff5722;
+            animation: bounce 1s;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
+        .form-section {
+            margin-bottom: 20px;
+            animation: slideIn 0.5s;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+        .form-section h2 {
+            font-size: 1.5em;
+            color: #ff9800;
+            border-bottom: 2px solid #ff5722;
+            padding-bottom: 5px;
         }
-        th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        .section-header {
-            background-color: #3498db;
-            color: white;
-            text-align: center;
+        .form-section label {
+            display: block;
+            margin: 10px 0 5px;
             font-weight: bold;
+            color: #607d8b;
         }
-        .icon {
-            width: 24px;
-            vertical-align: middle;
-            margin-right: 8px;
+        .form-section input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            transition: border-color 0.3s;
         }
-        .input-cell {
+        .form-section input:focus {
+            border-color: #ff5722;
+        }
+        .tooltip {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            color: #009688;
+        }
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 4px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .progress-bar {
             display: flex;
-            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
-        .input-cell input, .input-cell select {
-            flex-grow: 1;
-            padding: 4px;
-            margin-left: 8px;
+        .progress-bar div {
+            width: 24%;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            position: relative;
+        }
+        .progress-bar div.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #4CAF50;
+            border-radius: 5px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .buttons button:hover {
+            background: #388E3C;
+        }
+        .buttons button[disabled] {
+            background: #ddd;
+            cursor: not-allowed;
+        }
+        .results-section {
+            display: none;
+        }
+        .results-section p {
+            font-size: 1.2em;
+            color: #ff5722;
+            animation: slideIn 0.5s;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>財務需要分析表</h1>
+        <div class="progress-bar">
+            <div class="active"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <form id="financialForm">
+            <div class="form-section" id="section1">
+                <h2>個人資料</h2>
+                <label>姓名 Name:</label><input type="text" name="name" required><br>
+                <label>年齡 Age:</label><input type="number" name="age" required><br>
+            </div>
+            <div class="form-section" id="section2" style="display:none;">
+                <h2>目前收入 Current Income</h2>
+                <label>月薪 Monthly Salary (港幣 HKD):</label><input type="number" name="monthlySalary" required><br>
+                <label class="tooltip" data-tooltip="預期每年薪水增長">預期年薪增長率 Expected Annual Salary Growth Rate (%):</label><input type="number" name="annualSalaryGrowthRate" required><br>
+                <label>投資每月收入 Investment Monthly Income (港幣 HKD):</label><input type="number" name="investmentMonthlyIncome" required><br>
+                <label>個人投資每年回報率 Expected Annual Return Rate (%):</label><input type="number" name="annualReturnRate" required><br>
+                <label>流動資產 Current Assets (港幣 HKD):</label><input type="number" name="currentAssets" required><br>
+                <label>固定資產 Fixed Assets (港幣 HKD):</label><input type="number" name="fixedAssets" required><br>
+            </div>
+            <div class="form-section" id="section3" style="display:none;">
+                <h2>目前支出 Current Expenditure</h2>
+                <label>每月平均開支 Average Monthly Expenses (港幣 HKD):</label><input type="number" name="averageMonthlyExpenses" required><br>
+                <label>每月家庭開支 Family Monthly Expenses (港幣 HKD):</label><input type="number" name="familyMonthlyExpenses" required><br>
+                <label>供養家庭年數 Years to Support Family:</label><input type="number" name="yearsToSupportFamily" required><br>
+                <label>非預期開支 Unexpected Expenses (港幣 HKD):</label><input type="number" name="unexpectedExpenses" required><br>
+                <label>未償還債務 Outstanding Debts (港幣 HKD):</label><input type="number" name="outstandingDebts" required><br>
+                <label>按揭貸款 Mortgage Loans (港幣 HKD):</label><input type="number" name="mortgageLoans" required><br>
+                <label>預期每年通脹率 Expected Annual Inflation Rate (%):</label><input type="number" name="annualInflationRate" required><br>
+            </div>
+            <div class="form-section" id="section4" style="display:none;">
+                <h2>退休計劃</h2>
+                <label>預期退休每月支出 Expected Monthly Expenses in Retirement (港幣 HKD):</label><input type="number" name="retirementMonthlyExpenses" required><br>
+                <label>非預期退休支出 Unexpected Retirement Expenses (港幣 HKD):</label><input type="number" name="unexpectedRetirementExpenses" required><br>
+                <label>預計退休年齡 Expected Retirement Age (歲 Years):</label><input type="number" name="retirementAge" required><br>
+                <label>預計死亡年齡 Expected Death Age (歲 Years):</label><input type="number" name="deathAge" required><br>
+            </div>
+            <div class="form-section results-section" id="resultsSection" style="display:none;">
+                <h2>結果 Results</h2>
+                <p>目前收入與退休收入之間的差距:</p>
+                <p id="incomeGap"></p>
+                <p>要將差距拉近，個人投資回報率最少需要每年多:</p>
+                <p id="requiredReturnRate"></p>
+            </div>
+            <div class="buttons">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)" disabled>上一步</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">下一步</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        let currentTab = 0;
+        showTab(currentTab);
 
-    <h1>財務需要分析表 Financial Needs Analysis Form</h1>
+        function showTab(n) {
+            let sections = document.querySelectorAll(".form-section");
+            sections[n].style.display = "block";
+            if (n == 0) {
+                document.getElementById("prevBtn").disabled = true;
+            } else {
+                document.getElementById("prevBtn").disabled = false;
+            }
+            if (n == (sections.length - 2)) {
+                document.getElementById("nextBtn").innerHTML = "提交";
+            } else if (n == (sections.length - 1)) {
+                document.getElementById("nextBtn").style.display = "none";
+                document.getElementById("prevBtn").style.display = "none";
+            } else {
+                document.getElementById("nextBtn").innerHTML = "下一步";
+            }
+            updateProgressBar(n);
+        }
 
-    <table>
-        <tr class="section-header">
-            <td colspan="2">個人資料 Personal Information</td>
-        </tr>
-        <tr>
-            <td>姓名（姓氏先排） Name (Last Name First)</td>
-            <td><input type="text" id="name" name="name"></td>
-        </tr>
-        <tr>
-            <td>聯絡電話 Phone Number</td>
-            <td><input type="text" id="phone" name="phone"></td>
-        </tr>
-        <tr>
-            <td>電子郵件 Email</td>
-            <td><input type="email" id="email" name="email"></td>
-        </tr>
-        <tr>
-            <td>身份證號碼 ID Number</td>
-            <td><input type="text" id="id" name="id"></td>
-        </tr>
-        <tr>
-            <td>地址 Address</td>
-            <td><input type="text" id="address" name="address"></td>
-        </tr>
+        function nextPrev(n) {
+            let sections = document.querySelectorAll(".form-section");
+            if (n == 1 && !validateForm()) return false;
+            sections[currentTab].style.display = "none";
+            currentTab = currentTab + n;
+            if (currentTab >= sections.length - 1) {
+                showResults();
+                return false;
+            }
+            showTab(currentTab);
+        }
 
-        <tr class="section-header">
-            <td colspan="2">你儲蓄的金錢是為了什麼將來的打算 Savings Goals</td>
-        </tr>
-        <tr>
-            <td><img src="https://via.placeholder.com/24" class="icon">目標1 Goal 1</td>
-            <td class="input-cell">
-                <input type="text" id="goal1" name="goal1" placeholder="請填寫目標 Enter Goal">
-                金額 Amount: <input type="number" id="goal1-amount" name="goal1-amount"> 港幣 HKD，年期 Years:
-                <input type="number" id="goal1-years" name="goal1-years">
-            </td>
-        </tr>
-        <tr>
-            <td><img src="https://via.placeholder.com/24" class="icon">目標2 Goal 2</td>
-            <td class="input-cell">
-                <input type="text" id="goal2" name="goal2" placeholder="請填寫目標 Enter Goal">
-                金額 Amount: <input type="number" id="goal2-amount" name="goal2-amount"> 港幣 HKD，年期 Years:
-                <input type="number" id="goal2-years" name="goal2-years">
-            </td>
-        </tr>
-        <tr>
-            <td><img src="https://via.placeholder.com/24" class="icon">目標3 Goal 3</td>
-            <td class="input-cell">
-                <input type="text" id="goal3" name="goal3" placeholder="請填寫目標 Enter Goal">
-                金額 Amount: <input type="number" id="goal3-amount" name="goal3-amount"> 港幣 HKD，年期 Years:
-                <input type="number" id="goal3-years" name="goal3-years">
-            </td>
-        </tr>
-        <tr>
-            <td>其他目標 Other Goals</td>
-            <td><textarea id="other-goals" name="other-goals" rows="3"></textarea></td>
-        </tr>
+        function validateForm() {
+            let sections = document.querySelectorAll(".form-section");
+            let inputs = sections[currentTab].querySelectorAll("input");
+            let valid = true;
+            inputs.forEach(input => {
+                if (input.value == "") {
+                    input.style.borderColor = "red";
+                    valid = false;
+                } else {
+                    input.style.borderColor = "#bbb";
+                }
+            });
+            return valid;
+        }
 
-        <tr class="section-header">
-            <td colspan="2">財務狀況 Financial Situation</td>
-        </tr>
-        <tr>
-            <td>每月平均收入 Average Monthly Income</td>
-            <td><input type="number" id="monthly-income" name="monthly-income"> 港幣 HKD</td>
-        </tr>
-        <tr>
-            <td>每月平均開支 Average Monthly Expenses</td>
-            <td><input type="number" id="monthly-expenses" name="monthly-expenses"> 港幣 HKD</td>
-        </tr>
-        <tr>
-            <td>流動資產 Current Assets</td>
-            <td><input type="number" id="current-assets" name="current-assets"> 港幣 HKD</td>
-        </tr>
-        <tr>
-            <td>固定資產 Fixed Assets</td>
-            <td><input type="number" id="fixed-assets" name="fixed-assets"> 港幣 HKD</td>
-        </tr>
-        <tr>
-            <td>未償還債務 Outstanding Debts</td>
-            <td><input type="number" id="outstanding-debts" name="outstanding-debts"> 港幣 HKD</td>
-        </tr>
-        <tr>
-            <td>按揭貸款 Mortgage Loans</td>
-            <td><input type="number" id="mortgage-loans" name="mortgage-loans"> 港幣 HKD</td>
-        </tr>
+        function updateProgressBar(n) {
+            let progressBar = document.querySelectorAll(".progress-bar div");
+            progressBar.forEach((bar, index) => {
+                if (index <= n) {
+                    bar.classList.add("active");
+                } else {
+                    bar.classList.remove("active");
+                }
+            });
+        }
 
-        <tr class="section-header">
-            <td colspan="2">退休計劃 Retirement Plan</td>
-        </tr>
-        <tr>
-            <td>預計退休年齡 Expected Retirement Age</td>
-            <td><input type="number" id="retirement-age" name="retirement-age"> 歲 Years</td>
-        </tr>
-        <tr>
-            <td>期望月收入 Desired Monthly Income</td>
-            <td><input type="number" id="expected-monthly-income" name="expected-monthly-income"> 港幣 HKD</td>
-        </tr>
-        <tr>
-            <td>主要收入來源 Main Income Source</td>
-            <td><input type="text" id="main-income-source" name="main-income-source"></td>
-        </tr>
-        <tr>
-            <td>退休後居住地 Residence After Retirement</td>
-            <td>
-                <select id="residence" name="residence">
-                    <option value="local">本地 Local</option>
-                    <option value="overseas">海外 Overseas</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>旅遊或其他活動 Travel or Other Activities</td>
-            <td class="input-cell">
-                是 Yes <input type="radio" id="travel-yes" name="travel" value="yes">
-                否 No <input type="radio" id="travel-no" name="travel" value="no">
-                ，預計每年支出 Estimated Annual Expense: <input type="number" id="annual-expense" name="annual-expense"> 港幣 HKD
-            </td>
-        </tr>
+        function showResults() {
+            document.getElementById("resultsSection").style.display = "block";
+            let form = document.getElementById("financialForm");
+            let formData = new FormData(form);
+            let age = parseFloat(formData.get("age"));
+            let monthlySalary = parseFloat(formData.get("monthlySalary"));
+            let annualSalaryGrowthRate = parseFloat(formData.get("annualSalaryGrowthRate")) / 100;
+            let investmentMonthlyIncome = parseFloat(formData.get("investmentMonthlyIncome"));
+            let annualReturnRate = parseFloat(formData.get("annualReturnRate")) / 100;
+            let currentAssets = parseFloat(formData.get("currentAssets"));
+            let fixedAssets = parseFloat(formData.get("fixedAssets"));
+            let averageMonthlyExpenses = parseFloat(formData.get("averageMonthlyExpenses"));
+            let familyMonthlyExpenses = parseFloat(formData.get("familyMonthlyExpenses"));
+            let yearsToSupportFamily = parseFloat(formData.get("yearsToSupportFamily"));
+            let unexpectedExpenses = parseFloat(formData.get("unexpectedExpenses"));
+            let outstandingDebts = parseFloat(formData.get("outstandingDebts"));
+            let mortgageLoans = parseFloat(formData.get("mortgageLoans"));
+            let annualInflationRate = parseFloat(formData.get("annualInflationRate")) / 100;
+            let expectedRetirementExpenses = parseFloat(formData.get("retirementMonthlyExpenses"));
+            let unexpectedRetirementExpenses = parseFloat(formData.get("unexpectedRetirementExpenses"));
+            let expectedRetirementAge = parseFloat(formData.get("retirementAge"));
+            let deathAge = parseFloat(formData.get("deathAge"));
 
-        <tr class="section-header">
-            <td colspan="2">理財產品興趣與熟悉程度 Interest and Familiarity with Financial Products</td>
-        </tr>
-        <tr>
-            <td>定期存款 Term Deposit</td>
-            <td><input type="number" id="term-deposit" name="term-deposit" min="1" max="5"> （1-5）</td>
-        </tr>
-        <tr>
-            <td>儲蓄保險 Savings Insurance</td>
-            <td><input type="number" id="savings-insurance" name="savings-insurance" min="1" max="5"> （1-5）</td>
-        </tr>
-        <tr>
-            <td>股票 Stocks</td>
-            <td><input type="number" id="stocks" name="stocks" min="1" max="5"> （1-5）</td>
-        </tr>
-        <tr>
-            <td>債券 Bonds</td>
-            <td><input type="number" id="bonds" name="bonds" min="1" max="5"> （1-5）</td>
-        </tr>
-        <tr>
-            <td>互惠基金 Mutual Funds</td>
-            <td><input type="number" id="mutual-funds" name="mutual-funds" min="1" max="5"> （1-5）</td>
-        </tr>
-        <tr>
-            <td>房地產投資信託基金 REITs</td>
-            <td><input type="number" id="reits" name="reits" min="1" max="5"> （1-5）</td>
-        </tr>
-        <tr>
-            <td>其他產品 Other Products</td>
-            <td><input type="text" id="other-products" name="other-products"></td>
-        </tr>
-    </table>
+            // 計算淨資產
+            let totalAssets = currentAssets + fixedAssets;
+            let totalDebts = outstandingDebts + mortgageLoans;
+            let netWorth = totalAssets - totalDebts;
 
+            // 計算退休期間的年數
+            let retirementYears = deathAge - expectedRetirementAge;
+
+            // 計算退休期間的總支出
+            let totalRetirementExpenses = (expectedRetirementExpenses * 12) * retirementYears * Math.pow((1 + annualInflationRate), retirementYears) + unexpectedRetirementExpenses;
+
+            // 計算距離退休的年數
+            let yearsUntilRetirement = expectedRetirementAge - age;
+
+            // 計算退休前的總支出
+            let totalPreRetirementExpense = (averageMonthlyExpenses * 12 * yearsUntilRetirement * Math.pow((1 + annualInflationRate), yearsUntilRetirement))
+                + (familyMonthlyExpenses * yearsToSupportFamily * Math.pow((1 + annualInflationRate), yearsToSupportFamily)) + unexpectedExpenses;
+
+            // 計算退休前的總收入
+            let totalPreRetirementIncome = (monthlySalary * 12 * yearsUntilRetirement * Math.pow((1 + annualSalaryGrowthRate), yearsUntilRetirement))
+                + (investmentMonthlyIncome * 12 * yearsUntilRetirement * Math.pow((1 + annualReturnRate), yearsUntilRetirement));
+
+            // 計算退休期間的收入缺口
+            let incomeGap = totalRetirementExpenses + totalPreRetirementExpense - netWorth - totalPreRetirementIncome;
+
+            // 計算需要填補缺口的額外投資回報率
+            let additionalReturnRateNeeded = (incomeGap / (retirementYears * totalPreRetirementIncome)) * 100;
+
+            document.getElementById("incomeGap").innerText = incomeGap.toFixed(2) + " 港幣";
+            document.getElementById("requiredReturnRate").innerText = additionalReturnRateNeeded.toFixed(2) + " %";
+        }
+    </script>
 </body>
 </html>
