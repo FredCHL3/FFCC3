@@ -1,308 +1,241 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>財務需要分析表 V6</title>
+    <title>投資風險承受能力評估</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-30px); }
-            60% { transform: translateY(-15px); }
-        }
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background-color: #ffeb3b;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: Arial, sans-serif;
         }
         .container {
-            background: #fff;
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
         }
-        h1 {
+        h2 {
             text-align: center;
-            color: #ff5722;
-            animation: bounce 1s;
         }
-        .form-section {
+        .question {
             margin-bottom: 20px;
-            animation: slideIn 0.5s;
         }
-        .form-section h2 {
-            font-size: 1.5em;
-            color: #ff9800;
-            border-bottom: 2px solid #ff5722;
-            padding-bottom: 5px;
-        }
-        .form-section label {
-            display: block;
-            margin: 10px 0 5px;
-            font-weight: bold;
-            color: #607d8b;
-        }
-        .form-section input {
-            width: calc(100% - 22px);
-            padding: 10px;
+        .question h3 {
             margin-bottom: 10px;
-            border: 1px solid #bbb;
-            border-radius: 4px;
-            transition: border-color 0.3s;
         }
-        .form-section input:focus {
-            border-color: #ff5722;
+        .question div {
+            margin-bottom: 5px;
         }
-        .tooltip {
-            display: inline-block;
-            position: relative;
-            cursor: pointer;
-            color: #009688;
-        }
-        .tooltip:hover::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: #fff;
-            padding: 5px;
-            border-radius: 4px;
-            white-space: nowrap;
-            z-index: 10;
-        }
-        .progress-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .progress-bar div {
-            width: 24%;
-            height: 10px;
-            background: #ddd;
-            border-radius: 5px;
-            position: relative;
-        }
-        .progress-bar div.active::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .submit-button {
+            display: block;
             width: 100%;
-            height: 100%;
-            background: #4CAF50;
-            border-radius: 5px;
-        }
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-        .buttons button {
-            padding: 10px 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
             border: none;
-            border-radius: 4px;
-            background: #4CAF50;
-            color: #fff;
             cursor: pointer;
-            transition: background 0.3s;
+            text-align: center;
         }
-        .buttons button:hover {
-            background: #388E3C;
+        .submit-button:hover {
+            background-color: #0056b3;
         }
-        .buttons button[disabled] {
-            background: #ddd;
-            cursor: not-allowed;
-        }
-        .results-section {
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
             display: none;
         }
-        .results-section p {
-            font-size: 1.2em;
-            color: #ff5722;
-            animation: slideIn 0.5s;
+        canvas {
+            max-width: 100%;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>財務需要分析表</h1>
-        <div class="progress-bar">
-            <div class="active"></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <form id="financialForm">
-            <div class="form-section" id="section1">
-                <h2>個人資料</h2>
-                <label>姓名 Name:</label><input type="text" name="name" required><br>
-                <label>年齡 Age:</label><input type="number" name="age" required><br>
+        <h2>投資風險承受能力評估</h2>
+
+        <form id="riskAssessmentForm">
+            <div class="question">
+                <h3>1. 你剛剛得到了一筆意外之財，你會怎麼做？</h3>
+                <div><input type="radio" name="unexpectedWealth" value="1"> 存入銀行，獲取穩定的利息</div>
+                <div><input type="radio" name="unexpectedWealth" value="2"> 部分存入銀行，部分用於低風險的投資</div>
+                <div><input type="radio" name="unexpectedWealth" value="3"> 大部分用於中等風險的投資，期望獲取較高回報</div>
+                <div><input type="radio" name="unexpectedWealth" value="4"> 全部用於高風險的投資，期望獲取最大回報</div>
             </div>
-            <div class="form-section" id="section2" style="display:none;">
-                <h2>目前收入 Current Income</h2>
-                <label>月薪 Monthly Salary (港幣 HKD):</label><input type="number" name="monthlySalary" required><br>
-                <label class="tooltip" data-tooltip="預期每年薪水增長">預期年薪增長率 Expected Annual Salary Growth Rate (%):</label><input type="number" name="annualSalaryGrowthRate" required><br>
-                <label>投資每月收入 Investment Monthly Income (港幣 HKD):</label><input type="number" name="investmentMonthlyIncome" required><br>
-                <label>個人投資每年回報率 Expected Annual Return Rate (%):</label><input type="number" name="annualReturnRate" required><br>
-                <label>流動資產 Current Assets (港幣 HKD):</label><input type="number" name="currentAssets" required><br>
-                <label>固定資產 Fixed Assets (港幣 HKD):</label><input type="number" name="fixedAssets" required><br>
+
+            <div class="question">
+                <h3>2. 你在旅行時發現了一個獨特的商機，你會怎麼做？</h3>
+                <div><input type="radio" name="businessOpportunity" value="1"> 不會考慮，因為風險太大</div>
+                <div><input type="radio" name="businessOpportunity" value="2"> 會觀察一段時間，再決定是否投入</div>
+                <div><input type="radio" name="businessOpportunity" value="3"> 會嘗試少量投資，看看效果</div>
+                <div><input type="radio" name="businessOpportunity" value="4"> 立即大額投資，希望趁機獲利</div>
             </div>
-            <div class="form-section" id="section3" style="display:none;">
-                <h2>目前支出 Current Expenditure</h2>
-                <label>每月平均開支 Average Monthly Expenses (港幣 HKD):</label><input type="number" name="averageMonthlyExpenses" required><br>
-                <label>每月家庭開支 Family Monthly Expenses (港幣 HKD):</label><input type="number" name="familyMonthlyExpenses" required><br>
-                <label>供養家庭年數 Years to Support Family:</label><input type="number" name="yearsToSupportFamily" required><br>
-                <label>非預期開支 Unexpected Expenses (港幣 HKD):</label><input type="number" name="unexpectedExpenses" required><br>
-                <label>未償還債務 Outstanding Debts (港幣 HKD):</label><input type="number" name="outstandingDebts" required><br>
-                <label>按揭貸款 Mortgage Loans (港幣 HKD):</label><input type="number" name="mortgageLoans" required><br>
-                <label>預期每年通脹率 Expected Annual Inflation Rate (%):</label><input type="number" name="annualInflationRate" required><br>
+
+            <div class="question">
+                <h3>3. 你發現你的朋友在一個新興市場賺了很多錢，你會怎麼做？</h3>
+                <div><input type="radio" name="friendsSuccess" value="1"> 祝賀朋友，但不會跟風投資</div>
+                <div><input type="radio" name="friendsSuccess" value="2"> 會進行研究後，謹慎投資</div>
+                <div><input type="radio" name="friendsSuccess" value="3"> 會嘗試少量投資，看看效果</div>
+                <div><input type="radio" name="friendsSuccess" value="4"> 立即大額投資，希望也能賺錢</div>
             </div>
-            <div class="form-section" id="section4" style="display:none;">
-                <h2>退休計劃</h2>
-                <label>預期退休每月支出 Expected Monthly Expenses in Retirement (港幣 HKD):</label><input type="number" name="retirementMonthlyExpenses" required><br>
-                <label>非預期退休支出 Unexpected Retirement Expenses (港幣 HKD):</label><input type="number" name="unexpectedRetirementExpenses" required><br>
-                <label>預計退休年齡 Expected Retirement Age (歲 Years):</label><input type="number" name="retirementAge" required><br>
-                <label>預計死亡年齡 Expected Death Age (歲 Years):</label><input type="number" name="deathAge" required><br>
+
+            <div class="question">
+                <h3>4. 你聽說某隻股票即將大幅上漲，你會怎麼做？</h3>
+                <div><input type="radio" name="stockRise" value="1"> 不會考慮購買，因為風險太大</div>
+                <div><input type="radio" name="stockRise" value="2"> 會觀察一段時間，再決定是否購買</div>
+                <div><input type="radio" name="stockRise" value="3"> 會購買少量股票，嘗試一下</div>
+                <div><input type="radio" name="stockRise" value="4"> 立即購買，希望趁機獲利</div>
             </div>
-            <div class="form-section results-section" id="resultsSection" style="display:none;">
-                <h2>結果 Results</h2>
-                <p>目前收入與退休收入之間的差距:</p>
-                <p id="incomeGap"></p>
-                <p>要將差距拉近，個人投資回報率最少需要每年多:</p>
-                <p id="requiredReturnRate"></p>
+
+            <div class="question">
+                <h3>5. 當你發現自己投資的某隻股票價格大幅下跌，你會怎麼做？</h3>
+                <div><input type="radio" name="stockFall" value="1"> 立即賣出，避免進一步的損失</div>
+                <div><input type="radio" name="stockFall" value="2"> 感到焦慮，但會觀察一段時間再做決定</div>
+                <div><input type="radio" name="stockFall" value="3"> 保持冷静，根據市場情況進行調整</div>
+                <div><input type="radio" name="stockFall" value="4"> 完全不擔心，相信長期投資能夠回本</div>
             </div>
-            <div class="buttons">
-                <button type="button" id="prevBtn" onclick="nextPrev(-1)" disabled>上一步</button>
-                <button type="button" id="nextBtn" onclick="nextPrev(1)">下一步</button>
+
+            <div class="question">
+                <h3>6. 你如何面對生活中的壓力？</h3>
+                <div><input type="radio" name="stress" value="1"> 通過運動或冥想來放鬆自己</div>
+                <div><input type="radio" name="stress" value="2"> 與朋友或家人聊天，尋求支持</div>
+                <div><input type="radio" name="stress" value="3"> 尋找新的愛好或活動來轉移注意力</div>
+                <div><input type="radio" name="stress" value="4"> 面對壓力，嘗試解決問題</div>
             </div>
+
+            <div class="question">
+                <h3>7. 當你計劃一次旅行時，你會怎麼做？</h3>
+                <div><input type="radio" name="travel" value="1"> 提前詳細計劃好每個細節</div>
+                <div><input type="radio" name="travel" value="2"> 做一些基本準備，然後隨遇而安</div>
+                <div><input type="radio" name="travel" value="3"> 聽從朋友的建議，簡單安排</div>
+                <div><input type="radio" name="travel" value="4"> 說走就走，享受即興旅行</div>
+            </div>
+
+            <div class="question">
+                <h3>8. 你在投資前會怎樣做準備？</h3>
+                <div><input type="radio" name="preparation" value="1"> 非常謹慎，會花很多時間研究和比較</div>
+                <div><input type="radio" name="preparation" value="2"> 會進行基本研究後做出決定</div>
+                <div><input type="radio" name="preparation" value="3"> 相信自己的直覺，較快速做出決定</div>
+                <div><input type="radio" name="preparation" value="4"> 大膽投資，幾乎不做太多研究</div>
+            </div>
+
+            <div class="question">
+                <h3>9. 你的投資目標通常是什麼？</h3>
+                <div><input type="radio" name="investmentGoal" value="1"> 保本，獲取穩定的回報</div>
+                <div><input type="radio" name="investmentGoal" value="2"> 部分保本，追求適度增值</div>
+                <div><input type="radio" name="investmentGoal" value="3"> 追求資本增值，承受一定風險</div>
+                <div><input type="radio" name="investmentGoal" value="4"> 追求高額回報，願意承受高風險</div>
+            </div>
+
+            <button type="button" class="submit-button" onclick="calculateRiskTolerance()">提交</button>
         </form>
+
+        <div id="result" class="result">
+            <h3>投資風險承受能力評估結果</h3>
+            <p id="resultText"></p>
+            <h3>現代投資組合理論（MPT）介紹</h3>
+            <p>現代投資組合理論（Modern Portfolio Theory, MPT）是一種旨在優化投資組合回報與風險平衡的理論。由哈里·馬科維茲於1952年提出，該理論強調通過分散投資來降低整體風險，並最大化預期回報。MPT的核心概念是“有效前沿”，即在相同風險水平下能夠提供最高回報的投資組合。</p>
+            <p>MPT被廣泛應用於投資管理中，並被證明在實踐中具有良好的效果，因此在金融界享有高度的可信性。</p>
+            <h3>基於現代投資組合理論（MPT）的投資分佈建議</h3>
+            <p id="mptAdvice"></p>
+            <canvas id="mptChart"></canvas>
+        </div>
     </div>
+
     <script>
-        let currentTab = 0;
-        showTab(currentTab);
+        function calculateRiskTolerance() {
+            const form = document.getElementById('riskAssessmentForm');
+            const formData = new FormData(form);
+            let score = 0;
 
-        function showTab(n) {
-            let sections = document.querySelectorAll(".form-section");
-            sections[n].style.display = "block";
-            if (n == 0) {
-                document.getElementById("prevBtn").disabled = true;
-            } else {
-                document.getElementById("prevBtn").disabled = false;
-            }
-            if (n == (sections.length - 2)) {
-                document.getElementById("nextBtn").innerHTML = "提交";
-            } else if (n == (sections.length - 1)) {
-                document.getElementById("nextBtn").style.display = "none";
-                document.getElementById("prevBtn").style.display = "none";
-            } else {
-                document.getElementById("nextBtn").innerHTML = "下一步";
-            }
-            updateProgressBar(n);
-        }
-
-        function nextPrev(n) {
-            let sections = document.querySelectorAll(".form-section");
-            if (n == 1 && !validateForm()) return false;
-            sections[currentTab].style.display = "none";
-            currentTab = currentTab + n;
-            if (currentTab >= sections.length - 1) {
-                showResults();
-                return false;
-            }
-            showTab(currentTab);
-        }
-
-        function validateForm() {
-            let sections = document.querySelectorAll(".form-section");
-            let inputs = sections[currentTab].querySelectorAll("input");
-            let valid = true;
-            inputs.forEach(input => {
-                if (input.value == "") {
-                    input.style.borderColor = "red";
-                    valid = false;
-                } else {
-                    input.style.borderColor = "#bbb";
-                }
+            formData.forEach((value, key) => {
+                score += parseInt(value);
             });
-            return valid;
+
+            const resultText = document.getElementById('resultText');
+            const mptAdvice = document.getElementById('mptAdvice');
+            let riskLevel;
+            let allocation;
+
+            if (score <= 12) {
+                riskLevel = '低風險';
+                resultText.innerHTML = '您的風險承受能力較低，建議以保本和低風險投資為主。';
+                allocation = {
+                    labels: ['低風險產品（如：定期存款）', '中風險產品（如：債券）', '現金或等價物'],
+                    data: [50, 30, 20]
+                };
+                mptAdvice.innerHTML = '建議投資分佈：50% 低風險產品（如：定期存款），30% 中風險產品（如：債券），20% 現金或等價物。';
+            } else if (score <= 24) {
+                riskLevel = '中等風險';
+                resultText.innerHTML = '您的風險承受能力中等，可以考慮平衡型投資組合。';
+                allocation = {
+                    labels: ['低風險產品（如：公司債券）', '中風險產品（如：互惠基金）', '高風險產品（如：股票）'],
+                    data: [40, 40, 20]
+                };
+                mptAdvice.innerHTML = '建議投資分佈：40% 低風險產品（如：公司債券），40% 中風險產品（如：互惠基金），20% 高風險產品（如：股票）。';
+            } else {
+                riskLevel = '高風險';
+                resultText.innerHTML = '您的風險承受能力較高，可以考慮較高風險的投資以追求高回報。';
+                allocation = {
+                    labels: ['中風險產品（如：互惠基金）', '高風險產品（如：股票）', '高風險產品（如：房地產投資信託基金）'],
+                    data: [30, 40, 30]
+                };
+                mptAdvice.innerHTML = '建議投資分佈：30% 中風險產品（如：互惠基金），40% 高風險產品（如：股票），30% 高風險產品（如：房地產投資信託基金）。';
+            }
+
+            document.getElementById('result').style.display = 'block';
+            displayChart(allocation);
         }
 
-        function updateProgressBar(n) {
-            let progressBar = document.querySelectorAll(".progress-bar div");
-            progressBar.forEach((bar, index) => {
-                if (index <= n) {
-                    bar.classList.add("active");
-                } else {
-                    bar.classList.remove("active");
+        function displayChart(allocation) {
+            const ctx = document.getElementById('mptChart').getContext('2d');
+            const data = {
+                labels: allocation.labels,
+                datasets: [{
+                    label: '投資分佈',
+                    data: allocation.data,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(201, 203, 207, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(201, 203, 207, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            const config = {
+                type: 'pie',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    }
                 }
-            });
-        }
+            };
 
-        function showResults() {
-            document.getElementById("resultsSection").style.display = "block";
-            let form = document.getElementById("financialForm");
-            let formData = new FormData(form);
-            let age = parseFloat(formData.get("age"));
-            let monthlySalary = parseFloat(formData.get("monthlySalary"));
-            let annualSalaryGrowthRate = parseFloat(formData.get("annualSalaryGrowthRate")) / 100;
-            let investmentMonthlyIncome = parseFloat(formData.get("investmentMonthlyIncome"));
-            let annualReturnRate = parseFloat(formData.get("annualReturnRate")) / 100;
-            let currentAssets = parseFloat(formData.get("currentAssets"));
-            let fixedAssets = parseFloat(formData.get("fixedAssets"));
-            let averageMonthlyExpenses = parseFloat(formData.get("averageMonthlyExpenses"));
-            let familyMonthlyExpenses = parseFloat(formData.get("familyMonthlyExpenses"));
-            let yearsToSupportFamily = parseFloat(formData.get("yearsToSupportFamily"));
-            let unexpectedExpenses = parseFloat(formData.get("unexpectedExpenses"));
-            let outstandingDebts = parseFloat(formData.get("outstandingDebts"));
-            let mortgageLoans = parseFloat(formData.get("mortgageLoans"));
-            let annualInflationRate = parseFloat(formData.get("annualInflationRate")) / 100;
-            let expectedRetirementExpenses = parseFloat(formData.get("retirementMonthlyExpenses"));
-            let unexpectedRetirementExpenses = parseFloat(formData.get("unexpectedRetirementExpenses"));
-            let expectedRetirementAge = parseFloat(formData.get("retirementAge"));
-            let deathAge = parseFloat(formData.get("deathAge"));
-
-            // 計算淨資產
-            let totalAssets = currentAssets + fixedAssets;
-            let totalDebts = outstandingDebts + mortgageLoans;
-            let netWorth = totalAssets - totalDebts;
-
-            // 計算退休期間的年數
-            let retirementYears = deathAge - expectedRetirementAge;
-
-            // 計算退休期間的總支出
-            let totalRetirementExpenses = (expectedRetirementExpenses * 12) * retirementYears * Math.pow((1 + annualInflationRate), retirementYears) + unexpectedRetirementExpenses;
-
-            // 計算距離退休的年數
-            let yearsUntilRetirement = expectedRetirementAge - age;
-
-            // 計算退休前的總支出
-            let totalPreRetirementExpense = (averageMonthlyExpenses * 12 * yearsUntilRetirement * Math.pow((1 + annualInflationRate), yearsUntilRetirement))
-                + (familyMonthlyExpenses * yearsToSupportFamily * Math.pow((1 + annualInflationRate), yearsToSupportFamily)) + unexpectedExpenses;
-
-            // 計算退休前的總收入
-            let totalPreRetirementIncome = (monthlySalary * 12 * yearsUntilRetirement * Math.pow((1 + annualSalaryGrowthRate), yearsUntilRetirement))
-                + (investmentMonthlyIncome * 12 * yearsUntilRetirement * Math.pow((1 + annualReturnRate), yearsUntilRetirement));
-
-            // 計算退休期間的收入缺口
-            let incomeGap = totalRetirementExpenses + totalPreRetirementExpense - netWorth - totalPreRetirementIncome;
-
-            // 計算需要填補缺口的額外投資回報率
-            let additionalReturnRateNeeded = (incomeGap / (retirementYears * totalPreRetirementIncome)) * 100;
-
-            document.getElementById("incomeGap").innerText = incomeGap.toFixed(2) + " 港幣";
-            document.getElementById("requiredReturnRate").innerText = additionalReturnRateNeeded.toFixed(2) + " %";
+            new Chart(ctx, config);
         }
     </script>
 </body>
