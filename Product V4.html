@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理財產品雷達圖比較</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-container {
+            margin: 20px 0;
+        }
+        .form-container input, .form-container select, .form-container button {
+            margin: 5px 10px;
+        }
+        .description {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .positive {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .negative {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        canvas {
+            max-width: 80%; /* 調整圖表尺寸 */
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>理財產品雷達圖比較</h2>
+
+    <div class="form-container">
+        <label for="product1">選擇產品1:</label>
+        <select id="product1" onchange="updateChart()">
+            <option value="genesis">宏摯傳承保障計劃 (Genesis)</option>
+            <option value="termDeposit">定期存款 (Term Deposit)</option>
+            <option value="stocks">股票 (Stocks)</option>
+            <option value="bonds">債券 (Bonds)</option>
+            <option value="mutualFunds">互惠基金 (Mutual Funds)</option>
+            <option value="reits">房地產投資信託基金 (REITs)</option>
+        </select>
+
+        <label for="product2">選擇產品2:</label>
+        <select id="product2" onchange="updateChart()">
+            <option value="genesis">宏摯傳承保障計劃 (Genesis)</option>
+            <option value="termDeposit">定期存款 (Term Deposit)</option>
+            <option value="stocks">股票 (Stocks)</option>
+            <option value="bonds">債券 (Bonds)</option>
+            <option value="mutualFunds">互惠基金 (Mutual Funds)</option>
+            <option value="reits">房地產投資信託基金 (REITs)</option>
+        </select>
+
+        <h3>自定義混合理財組合</h3>
+        <label for="customProductLabel">產品名稱:</label>
+        <input type="text" id="customProductLabel" value="自定義產品">
+        <br><br>
+        <label for="customReturn">預期回報率 (%):</label>
+        <input type="number" id="customReturn" value="5" min="0" max="10">
+        <label for="customRisk">風險水平:</label>
+        <input type="number" id="customRisk" value="5" min="0" max="10">
+        <label for="customLiquidity">流動性:</label>
+        <input type="number" id="customLiquidity" value="5" min="0" max="10">
+        <label for="customTerm">投資期限:</label>
+        <input type="number" id="customTerm" value="5" min="0" max="10">
+        <label for="customDiversity">投資多樣性:</label>
+        <input type="number" id="customDiversity" value="5" min="0" max="10">
+        <label for="customVolatility">資本波幅度:</label>
+        <input type="number" id="customVolatility" value="5" min="0" max="10">
+        <br><br>
+        <label for="customDescription">文字解釋:</label>
+        <input type="text" id="customDescription">
+        <br><br>
+        <button onclick="updateChart()">更新圖表</button>
+    </div>
+
+    <canvas id="comparisonChart"></canvas>
+
+    <table id="comparisonTable">
+        <thead>
+            <tr>
+                <th>指標</th>
+                <th id="product1Label">產品1</th>
+                <th id="product2Label">產品2</th>
+                <th id="customProductLabelTable">自定義產品</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>預期回報率 (%)</td>
+                <td id="product1Return">7</td>
+                <td id="product2Return">7</td>
+                <td id="customProductReturn">5</td>
+            </tr>
+            <tr>
+                <td>風險水平</td>
+                <td id="product1Risk">3 <br><span class="description">中</span></td>
+                <td id="product2Risk">3 <br><span class="description">中</span></td>
+                <td id="customProductRisk">5</td>
+            </tr>
+            <tr>
+                <td>流動性</td>
+                <td id="product1Liquidity">3 <br><span class="description">中</span></td>
+                <td id="product2Liquidity">3 <br><span class="description">中</span></td>
+                <td id="customProductLiquidity">5</td>
+            </tr>
+            <tr>
+                <td>投資期限</td>
+                <td id="product1Term">5 <br><span class="description">長</span></td>
+                <td id="product2Term">5 <br><span class="description">長</span></td>
+                <td id="customProductTerm">5</td>
+            </tr>
+            <tr>
+                <td>投資多樣性</td>
+                <td id="product1Diversity">5 <br><span class="description">高</span></td>
+                <td id="product2Diversity">5 <br><span class="description">高</span></td>
+                <td id="customProductDiversity">5</td>
+            </tr>
+            <tr>
+                <td>資本波幅度</td>
+                <td id="product1Volatility">3 <br><span class="description">中</span></td>
+                <td id="product2Volatility">3 <br><span class="description">中</span></td>
+                <td id="customProductVolatility">5</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        const productData = {
+            genesis: {
+                label: '宏摯傳承保障計劃 (Genesis)',
+                data: [7, 3, 3, 5, 5, 3],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)'
+            },
+            termDeposit: {
+                label: '定期存款 (Term Deposit)',
+                data: [2, 1, 5, 1, 1, 1],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)'
+            },
+            stocks: {
+                label: '股票 (Stocks)',
+                data: [10, 5, 5, 5, 5, 5],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)'
+            },
+            bonds: {
+                label: '債券 (Bonds)',
+                data: [5, 2, 3, 3, 3, 2],
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)'
+            },
+            mutualFunds: {
+                label: '互惠基金 (Mutual Funds)',
+                data: [8, 3, 4, 4, 5, 3],
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                borderColor: 'rgba(255, 206, 86, 1)'
+            },
+            reits: {
+                label: '房地產投資信託基金 (REITs)',
+                data: [9, 3, 4, 5, 5, 4],
+                backgroundColor: 'rgba(201, 203, 207, 0.2)',
+                borderColor: 'rgba(201, 203, 207, 1)'
+            },
+            customProduct: {
+                label: '自定義產品',
+                data: [5, 5, 5, 5, 5, 5],
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderColor: 'rgba(255, 159, 64, 1)'
+            }
+        };
+
+        const labels = ['預期回報率', '風險水平', '流動性', '投資期限', '投資多樣性', '資本波幅度'];
+
+        const config = {
+            type: 'radar',
+            data: {
+                labels: labels,
+                datasets: []
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 10,
+                        pointLabels: {
+                            display: true,
+                            font: {
+                                size: 14
+                            }
+                        },
+                        ticks: {
+                            stepSize: 2,
+                            display: false
+                        }
+                    }
+                }
+            }
+        };
+
+        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        const comparisonChart = new Chart(ctx, config);
+
+        function updateChart() {
+            const product1 = document.getElementById('product1').value;
+            const product2 = document.getElementById('product2').value;
+            const customLabel = document.getElementById('customProductLabel').value;
+            const customReturn = document.getElementById('customReturn').value;
+            const customRisk = document.getElementById('customRisk').value;
+            const customLiquidity = document.getElementById('customLiquidity').value;
+            const customTerm = document.getElementById('customTerm').value;
+            const customDiversity = document.getElementById('customDiversity').value;
+            const customVolatility = document.getElementById('customVolatility').value;
+
+            productData.customProduct.label = customLabel;
+            productData.customProduct.data = [customReturn, customRisk, customLiquidity, customTerm, customDiversity, customVolatility];
+
+            config.data.datasets = [
+                productData[product1],
+                productData[product2],
+                productData.customProduct
+            ];
+
+            comparisonChart.update();
+
+            document.getElementById('product1Label').innerText = productData[product1].label;
+            document.getElementById('product2Label').innerText = productData[product2].label;
+            document.getElementById('customProductLabelTable').innerText = customLabel;
+
+            updateTableCell('product1Return', productData[product1].data[0], null, true);
+            updateTableCell('product1Risk', productData[product1].data[1], getDescription(productData[product1].data[1]), false);
+            updateTableCell('product1Liquidity', productData[product1].data[2], getDescription(productData[product1].data[2]), true);
+            updateTableCell('product1Term', productData[product1].data[3], getDescription(productData[product1].data[3], '期限'), true);
+            updateTableCell('product1Diversity', productData[product1].data[4], getDescription(productData[product1].data[4]), true);
+            updateTableCell('product1Volatility', productData[product1].data[5], getDescription(productData[product1].data[5]), false);
+
+            updateTableCell('product2Return', productData[product2].data[0], null, true);
+            updateTableCell('product2Risk', productData[product2].data[1], getDescription(productData[product2].data[1]), false);
+            updateTableCell('product2Liquidity', productData[product2].data[2], getDescription(productData[product2].data[2]), true);
+            updateTableCell('product2Term', productData[product2].data[3], getDescription(productData[product2].data[3], '期限'), true);
+            updateTableCell('product2Diversity', productData[product2].data[4], getDescription(productData[product2].data[4]), true);
+            updateTableCell('product2Volatility', productData[product2].data[5], getDescription(productData[product2].data[5]), false);
+
+            updateTableCell('customProductReturn', customReturn, null, true);
+            updateTableCell('customProductRisk', customRisk, getDescription(customRisk), false);
+            updateTableCell('customProductLiquidity', customLiquidity, getDescription(customLiquidity), true);
+            updateTableCell('customProductTerm', customTerm, getDescription(customTerm, '期限'), true);
+            updateTableCell('customProductDiversity', customDiversity, getDescription(customDiversity), true);
+            updateTableCell('customProductVolatility', customVolatility, getDescription(customVolatility), false);
+        }
+
+        function getDescription(score, type) {
+            if (type === '期限') {
+                if (score <= 3) return '短';
+                if (score <= 6) return '中';
+                return '長';
+            }
+            if (score <= 3) return '低';
+            if (score <= 6) return '中';
+            return '高';
+        }
+
+        function updateTableCell(elementId, score, description, isPositive) {
+            const cell = document.getElementById(elementId);
+            if (description) {
+                cell.innerHTML = `${score} <br><span class="description">${description}</span>`;
+            } else {
+                cell.innerHTML = `${score}`;
+            }
+
+            cell.classList.remove('positive', 'negative');
+            if (isPositive) {
+                if (score >= 7) {
+                    cell.classList.add('positive');
+                } else if (score <= 3) {
+                    cell.classList.add('negative');
+                }
+            } else {
+                if (score >= 7) {
+                    cell.classList.add('negative');
+                } else if (score <= 3) {
+                    cell.classList.add('positive');
+                }
+            }
+        }
+
+        // 初始化圖表
+        updateChart();
+    </script>
+</body>
+</html>
