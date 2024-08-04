@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投資風險承受能力評估</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .welcome-text, .role-text {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question h3 {
+            margin-bottom: 10px;
+        }
+        .question div {
+            margin-bottom: 5px;
+        }
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            display: none;
+        }
+        canvas {
+            max-width: 100%;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>投資風險承受能力評估</h2>
+
+        <div class="welcome-text">
+            <p>歡迎來到投資風險承受能力評估！</p>
+            <p>在開始之前，請放鬆心情，這是一個幫助您了解自己投資風險承受能力的小測驗。</p>
+        </div>
+
+        <div class="role-text">
+            <p>假設您是一位年輕的專業人士，剛剛開始您的職業生涯，並且有一些額外的資金可以進行投資。讓我們看看在不同情境下，您會如何做出決策。</p>
+        </div>
+
+        <form id="riskAssessmentForm">
+            <div class="question">
+                <h3>1. 你剛剛得到了一筆意外之財，你會怎麼做？</h3>
+                <div><input type="radio" name="unexpectedWealth" value="1"> 存入銀行，獲取穩定的利息</div>
+                <div><input type="radio" name="unexpectedWealth" value="2"> 部分存入銀行，部分用於低風險的投資</div>
+                <div><input type="radio" name="unexpectedWealth" value="3"> 大部分用於中等風險的投資，期望獲取較高回報</div>
+                <div><input type="radio" name="unexpectedWealth" value="4"> 全部用於高風險的投資，期望獲取最大回報</div>
+            </div>
+
+            <div class="question">
+                <h3>2. 你在旅行時發現了一個獨特的商機，你會怎麼做？</h3>
+                <div><input type="radio" name="businessOpportunity" value="1"> 不會考慮，因為風險太大</div>
+                <div><input type="radio" name="businessOpportunity" value="2"> 會觀察一段時間，再決定是否投入</div>
+                <div><input type="radio" name="businessOpportunity" value="3"> 會嘗試少量投資，看看效果</div>
+                <div><input type="radio" name="businessOpportunity" value="4"> 立即大額投資，希望趁機獲利</div>
+            </div>
+
+            <div class="question">
+                <h3>3. 你發現你的朋友在一個新興市場賺了很多錢，你會怎麼做？</h3>
+                <div><input type="radio" name="friendsSuccess" value="1"> 祝賀朋友，但不會跟風投資</div>
+                <div><input type="radio" name="friendsSuccess" value="2"> 會進行研究後，謹慎投資</div>
+                <div><input type="radio" name="friendsSuccess" value="3"> 會嘗試少量投資，看看效果</div>
+                <div><input type="radio" name="friendsSuccess" value="4"> 立即大額投資，希望也能賺錢</div>
+            </div>
+
+            <div class="question">
+                <h3>4. 你聽說某隻股票即將大幅上漲，你會怎麼做？</h3>
+                <div><input type="radio" name="stockRise" value="1"> 不會考慮購買，因為風險太大</div>
+                <div><input type="radio" name="stockRise" value="2"> 會觀察一段時間，再決定是否購買</div>
+                <div><input type="radio" name="stockRise" value="3"> 會購買少量股票，嘗試一下</div>
+                <div><input type="radio" name="stockRise" value="4"> 立即購買，希望趁機獲利</div>
+            </div>
+
+            <div class="question">
+                <h3>5. 當你發現自己投資的某隻股票價格大幅下跌，你會怎麼做？</h3>
+                <div><input type="radio" name="stockFall" value="1"> 立即賣出，避免進一步的損失</div>
+                <div><input type="radio" name="stockFall" value="2"> 感到焦慮，但會觀察一段時間再做決定</div>
+                <div><input type="radio" name="stockFall" value="3"> 保持冷静，根據市場情況進行調整</div>
+                <div><input type="radio" name="stockFall" value="4"> 完全不擔心，相信長期投資能夠回本</div>
+            </div>
+
+            <div class="question">
+                <h3>6. 你如何面對生活中的壓力？</h3>
+                <div><input type="radio" name="stress" value="1"> 通過運動或冥想來放鬆自己</div>
+                <div><input type="radio" name="stress" value="2"> 與朋友或家人聊天，尋求支持</div>
+                <div><input type="radio" name="stress" value="3"> 尋找新的愛好或活動來轉移注意力</div>
+                <div><input type="radio" name="stress" value="4"> 面對壓力，嘗試解決問題</div>
+            </div>
+
+            <div class="question">
+                <h3>7. 當你計劃一次旅行時，你會怎麼做？</h3>
+                <div><input type="radio" name="travel" value="1"> 提前詳細計劃好每個細節</div>
+                <div><input type="radio" name="travel" value="2"> 做一些基本準備，然後隨遇而安</div>
+                <div><input type="radio" name="travel" value="3"> 聽從朋友的建議，簡單安排</div>
+                <div><input type="radio" name="travel" value="4"> 說走就走，享受即興旅行</div>
+            </div>
+
+            <div class="question">
+                <h3>8. 你在投資前會怎樣做準備？</h3>
+                <div><input type="radio" name="preparation" value="1"> 非常謹慎，會花很多時間研究和比較</div>
+                <div><input type="radio" name="preparation" value="2"> 會進行基本研究後做出決定</div>
+                <div><input type="radio" name="preparation" value="3"> 相信自己的直覺，較快速做出決定</div>
+                <div><input type="radio" name="preparation" value="4"> 大膽投資，幾乎不做太多研究</div>
+            </div>
+
+            <div class="question">
+                <h3>9. 你的投資目標通常是什麼？</h3>
+                <div><input type="radio" name="investmentGoal" value="1"> 保本，獲取穩定的回報</div>
+                <div><input type="radio" name="investmentGoal" value="2"> 部分保本，追求適度增值</div>
+                <div><input type="radio" name="investmentGoal" value="3"> 追求資本增值，承受一定風險</div>
+                <div><input type="radio" name="investmentGoal" value="4"> 追求高額回報，願意承受高風險</div>
+            </div>
+
+            <button type="button" class="submit-button" onclick="calculateRiskTolerance()">提交</button>
+        </form>
+
+        <div id="result" class="result">
+            <h3>投資風險承受能力評估結果</h3>
+            <p id="resultText"></p>
+            <h3>現代投資組合理論（MPT）介紹</h3>
+            <p>現代投資組合理論（Modern Portfolio Theory, MPT）是一種旨在優化投資組合回報與風險平衡的理論。由哈里·馬科維茲於1952年提出，該理論強調通過分散投資來降低整體風險，並最大化預期回報。MPT的核心概念是“有效前沿”，即在相同風險水平下能夠提供最高回報的投資組合。</p>
+            <p>MPT被廣泛應用於投資管理中，並被證明在實踐中具有良好的效果，因此在金融界享有高度的可信性。</p>
+            <h3>基於現代投資組合理論（MPT）的投資分佈建議</h3>
+            <p id="mptAdvice"></p>
+            <canvas id="mptChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        function calculateRiskTolerance() {
+            const form = document.getElementById('riskAssessmentForm');
+            const formData = new FormData(form);
+            let score = 0;
+
+            formData.forEach((value, key) => {
+                if (key.match(/^(unexpectedWealth|businessOpportunity|friendsSuccess|stockRise|stockFall|stress|travel|preparation|investmentGoal)$/)) {
+                    score += parseInt(value);
+                }
+            });
+
+            const resultText = document.getElementById('resultText');
+            const mptAdvice = document.getElementById('mptAdvice');
+            let riskLevel;
+            let allocation;
+
+            if (score <= 12) {
+                riskLevel = '低風險';
+                resultText.innerHTML = '您的風險承受能力較低，建議以保本和低風險投資為主。';
+                allocation = {
+                    labels: ['低風險產品（如：定期存款）', '中風險產品（如：債券）', '現金或等價物'],
+                    data: [50, 30, 20]
+                };
+                mptAdvice.innerHTML = '建議投資分佈：50% 低風險產品（如：定期存款），30% 中風險產品（如：債券），20% 現金或等價物。';
+            } else if (score <= 24) {
+                riskLevel = '中等風險';
+                resultText.innerHTML = '您的風險承受能力中等，可以考慮平衡型投資組合。';
+                allocation = {
+                    labels: ['低風險產品（如：公司債券）', '中風險產品（如：互惠基金）', '高風險產品（如：股票）'],
+                    data: [40, 40, 20]
+                };
+                mptAdvice.innerHTML = '建議投資分佈：40% 低風險產品（如：公司債券），40% 中風險產品（如：互惠基金），20% 高風險產品（如：股票）。';
+            } else {
+                riskLevel = '高風險';
+                resultText.innerHTML = '您的風險承受能力較高，可以考慮較高風險的投資以追求高回報。';
+                allocation = {
+                    labels: ['中風險產品（如：互惠基金）', '高風險產品（如：股票）', '高風險產品（如：房地產投資信託基金）'],
+                    data: [30, 40, 30]
+                };
+                mptAdvice.innerHTML = '建議投資分佈：30% 中風險產品（如：互惠基金），40% 高風險產品（如：股票），30% 高風險產品（如：房地產投資信託基金）。';
+            }
+
+            document.getElementById('result').style.display = 'block';
+            displayChart(allocation);
+        }
+
+        function displayChart(allocation) {
+            const ctx = document.getElementById('mptChart').getContext('2d');
+            const data = {
+                labels: allocation.labels,
+                datasets: [{
+                    label: '投資分佈',
+                    data: allocation.data,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(201, 203, 207, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(201, 203, 207, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            const config = {
+                type: 'pie',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            new Chart(ctx, config);
+        }
+    </script>
+</body>
+</html>
