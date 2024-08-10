@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>投資風險承受能力評估</title>
+    <title>你認識自己的投資心理嗎?</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -57,11 +57,10 @@
 </head>
 <body>
     <div class="container">
-        <h2>投資風險承受能力評估</h2>
+        <h2>你認識自己的投資心理嗎</h2>
 
-        <div class="welcome-text">
-            <p>歡迎來到投資風險承受能力評估！</p>
-            <p>在開始之前，請放鬆心情，這是一個幫助您了解自己投資風險承受能力的小測驗。</p>
+        <div class="welcome-text">            
+            <p>在開始之前，請放鬆心情，這是一個幫助您了解自己投資心理的小測驗。</p>
         </div>
 
         <div class="role-text">
@@ -69,6 +68,14 @@
         </div>
 
         <form id="riskAssessmentForm">
+            <div class="question">
+                <h3>年齡選項</h3>
+                <div><input type="radio" name="age" value="12"> 18-30 歲</div>
+                <div><input type="radio" name="age" value="9"> 31-40 歲</div>
+                <div><input type="radio" name="age" value="6"> 41-50 歲</div>
+                <div><input type="radio" name="age" value="3"> 51 歲以上</div>
+            </div>
+
             <div class="question">
                 <h3>1. 你剛剛得到了一筆意外之財，你會怎麼做？</h3>
                 <div><input type="radio" name="unexpectedWealth" value="1"> 存入銀行，獲取穩定的利息</div>
@@ -145,12 +152,13 @@
         </form>
 
         <div id="result" class="result">
-            <h3>投資風險承受能力評估結果</h3>
+            <h3>你的自己的投資心理結果</h3>
+			<p>您的總分：<span id="totalScore"></span>/48</p>
+            <p id="investorType"></p>
             <p id="resultText"></p>
-            <h3>現代投資組合理論（MPT）介紹</h3>
-            <p>現代投資組合理論（Modern Portfolio Theory, MPT）是一種旨在優化投資組合回報與風險平衡的理論。由哈里·馬科維茲於1952年提出，該理論強調通過分散投資來降低整體風險，並最大化預期回報。MPT的核心概念是“有效前沿”，即在相同風險水平下能夠提供最高回報的投資組合。</p>
-            <p>MPT被廣泛應用於投資管理中，並被證明在實踐中具有良好的效果，因此在金融界享有高度的可信性。</p>
-            <h3>基於現代投資組合理論（MPT）的投資分佈建議</h3>
+			<p id="investorStory"></p>
+            <h3>以下為依照你的投資心理而提出的投資分佈參考:</h3>
+			<h3>此結果沒有嚴謹科學查証，謹記切勿盲目跟從!</h3>
             <p id="mptAdvice"></p>
             <canvas id="mptChart"></canvas>
         </div>
@@ -163,41 +171,53 @@
             let score = 0;
 
             formData.forEach((value, key) => {
-                if (key.match(/^(unexpectedWealth|businessOpportunity|friendsSuccess|stockRise|stockFall|stress|travel|preparation|investmentGoal)$/)) {
+                if (key.match(/^(age|unexpectedWealth|businessOpportunity|friendsSuccess|stockRise|stockFall|stress|travel|preparation|investmentGoal)$/)) {
                     score += parseInt(value);
                 }
             });
 
             const resultText = document.getElementById('resultText');
             const mptAdvice = document.getElementById('mptAdvice');
+            const investorType = document.getElementById('investorType');
+            const investorStory = document.getElementById('investorStory');
+            const totalScore = document.getElementById('totalScore');
             let riskLevel;
             let allocation;
+            let type;
+            let story;
 
-            if (score <= 12) {
+            if (score <= 16) {
                 riskLevel = '低風險';
-                resultText.innerHTML = '您的風險承受能力較低，建議以保本和低風險投資為主。';
                 allocation = {
                     labels: ['低風險產品（如：定期存款）', '中風險產品（如：債券）', '現金或等價物'],
                     data: [50, 30, 20]
                 };
-                mptAdvice.innerHTML = '建議投資分佈：50% 低風險產品（如：定期存款），30% 中風險產品（如：債券），20% 現金或等價物。';
-            } else if (score <= 24) {
+                mptAdvice.innerHTML = '50% 低風險產品（如：定期存款），30% 中低風險產品（如：債券），20% 現金或等價物。';
+                type = '保守型投資者';
+                story = '你是一位穩健的導航者，總是優先考慮資本的安全。每當市場波動，你都能保持冷靜，將大部分資金放在穩定的債券和現金中。你的目標是確保資產穩固，為未來的每一步做好準備。這種策略讓你在生活中擁有持續的安全感，使你能專注於享受家庭時光和計劃退休生活。';
+            } else if (score <= 32) {
                 riskLevel = '中等風險';
-                resultText.innerHTML = '您的風險承受能力中等，可以考慮平衡型投資組合。';
                 allocation = {
-                    labels: ['低風險產品（如：公司債券）', '中風險產品（如：互惠基金）', '高風險產品（如：股票）'],
+                    labels: ['中低風險產品（如：債券）', '中風險產品（如：派息基金）', '高風險產品（如：股票）'],
                     data: [40, 40, 20]
                 };
-                mptAdvice.innerHTML = '建議投資分佈：40% 低風險產品（如：公司債券），40% 中風險產品（如：互惠基金），20% 高風險產品（如：股票）。';
+                mptAdvice.innerHTML = '40% 中低風險產品（如：債券），40% 中風險產品（如：派息基金），20% 高風險產品（如：股票）。';
+                type = '平衡型投資者';
+                story = '你是一位善於平衡的藝術家，追求風險與回報的和諧。你的資產分配得當，既不過於保守也不冒險。股票和債券並存，現金也佔有一席之地。你的理財目標是實現穩定增長，為自己和家人創造美好的未來。這種平衡使你能夠在職業與生活中找到一個健康的節奏，讓人生更加豐富多彩。';
             } else {
                 riskLevel = '高風險';
-                resultText.innerHTML = '您的風險承受能力較高，可以考慮較高風險的投資以追求高回報。';
                 allocation = {
-                    labels: ['中風險產品（如：互惠基金）', '高風險產品（如：股票）', '高風險產品（如：房地產投資信託基金）'],
-                    data: [30, 40, 30]
+                    labels: ['低風險產品（如：債券）', '中風險產品（如：派息基金）', '高風險產品（如：股票）'],
+                    data: [20, 30, 50]
                 };
-                mptAdvice.innerHTML = '建議投資分佈：30% 中風險產品（如：互惠基金），40% 高風險產品（如：股票），30% 高風險產品（如：房地產投資信託基金）。';
+                mptAdvice.innerHTML = '20% 低風險產品（如：債券），30% 中風險產品（如：派息基金），50% 高風險產品（如：股票）。';
+                type = '積極型投資者';
+                story = '你是一位勇敢的冒險家，對未知世界充滿好奇和熱情。你的投資路徑充滿了股票和高風險的選擇，因為你相信高回報來自於大膽行動。你的目標是快速增長資產，支持你開創更多的事業和夢想。這種積極進取的策略讓你的人生充滿挑戰與成就感，不斷激勵你向前邁進。';
             }
+
+            investorType.innerHTML = `投資者類型：${type}`;
+            investorStory.innerHTML = `${story}`;
+            totalScore.innerHTML = score;
 
             document.getElementById('result').style.display = 'block';
             displayChart(allocation);
@@ -242,7 +262,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return context.label + ': ' + context.raw + '%';
+                                    return context.label + ' ' + context.raw + '%';
                                 }
                             }
                         }
