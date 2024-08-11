@@ -6,6 +6,9 @@
     <title>理財產品雷達圖比較</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
         table {
             width: 90%;
             border-collapse: collapse;
@@ -18,6 +21,22 @@
         }
         th {
             background-color: #f2f2f2;
+        }
+		.blue {
+            background-color: #cce5ff;
+            color: black;
+        }
+        .green {
+            background-color: #d4edda;
+            color: black;
+        }
+        .red {
+            background-color: #f8d7da;
+            color: black;
+        }
+        .white {
+            background-color: white;
+            color: black;
         }
         .form-container {
             margin: 10px 0;
@@ -38,7 +57,7 @@
             color: #721c24;
         }
         canvas {
-            max-width: 100%; /* 調整圖表尺寸 */
+            max-width: 100%;
             margin: auto;
         }
     </style>
@@ -83,9 +102,6 @@
         <input type="number" id="customDiversity" value="5" min="0" max="10">
         <label for="customVolatility">信用度:</label>
         <input type="number" id="customVolatility" value="5" min="0" max="10">
-        <br><br>
-        <label for="customDescription">文字解釋:</label>
-        <input type="text" id="customDescription">
         <br><br>
         <button onclick="updateChart()">更新圖表</button>
     </div>
@@ -140,78 +156,77 @@
             </tr>
         </tbody>
     </table>
-	
-	<canvas id="informationTable"></canvas>
-	
+
     <table id="informationTable">
         <thead>
             <tr>
-                <th>產品</th>
-                <th>預期回報率 (%)</th>
-                <th>資本保護性</th>
-                <th>靈活性</th>
-				<th>投資期限</th>
-				<th>市場相關性</th>
-				<th>信用度</th>
+                <th>指標</th>
+                <th>儲蓄計劃</th>
+                <th>定期存款</th>
+                <th>股票</th>
+                <th>債券</th>
+                <th>投資基金</th>
+                <th>年金</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th>儲蓄計劃</th>
-                <td>高潛力，內部回報率市場中上</td>
-                <td>有保障年期回本</th>
-                <td>提供無憂選，靈活提取</td>
-				<td>中長期，5-10年以上</td>
-				<td>受市場影響有限</td>
-				<td>由保險公司提供，信用度高</td>
+                <th>預期回報率 (%)</th>
+                <td class="blue">高潛力，用時間累積回報</td>
+                <td class="white">回報率低</td>
+                <td class="blue">高潛力，波動大</td>
+                <td class="white">穩定，通常高於定期存款</td>
+                <td class="blue">視乎投資組合，潛力高但風險大</td>
+                <td class="white">回報固定，通常較低</td>
             </tr>
             <tr>
-                <th>定期存款</th>
-                <td>回報率低</td>
-                <td>非常高，資本保證</td>
-                <td>低，提前取款有罰息</td>
-				<td>1-3期內</td>
-				<td>輕微受利率影響</td>
-				<td>非常高，由銀行提供</td>
+                <th>資本保護性</th>
+                <td class="green">有保障年期回本</td>
+                <td class="white">非常高，資本保證</td>
+                <td class="red">低，價格波動大</td>
+                <td class="green">較高，特別是政府債券</td>
+                <td class="red">中等，視乎專業機構投資表現</td>
+                <td class="green">高，提供穩定收入</td>
             </tr>
             <tr>
-                <th>股票</th>
-                <td>高潛力，波動大</td>
-                <td>低，價格波動大</td>
-                <td>高，可隨時買賣</td>
-				<td>靈活，沒有限制</td>
-				<td>高，與市場密切相關</td>
-				<td>視公司而定，個股風險較大</td>
+                <th>靈活性</th>
+                <td class="green">每年靈活提取本金和利息</td>
+                <td class="red">低，提前取款有罰息</td>
+                <td class="green">高，可隨時買賣</td>
+                <td class="white">中等，需持有至到期</td>
+                <td class="green">每年派息，部分可調整投資組合</td>
+                <td class="red">低，通常固定支付</td>
             </tr>
             <tr>
-                <th>債券</th>
-                <td>穩定，通常高於定期存款</td>
-                <td>較高，特別是政府債券</td>
-                <td>中等，需持有至到期</td>
-				<td>短至長期，3-10年</td>
-				<td>中等，受利率影響</td>
-				<td>視發行機構而定，政府債券信用度高<</td>
+                <th>投資期限</th>
+                <td class="red">中長期，5-10年以上</td>
+                <td class="green">1-3年內</td>
+                <td class="green">靈活，沒有限制</td>
+                <td class="red">短至長期，3-10年</td>
+                <td class="white">中長期，5年以上</td>
+                <td class="red">長期</td>
             </tr>
             <tr>
-                <th>投資基金</th>
-                <td>視乎投資組合，潛力高但風險大</td>
-                <td>中等，視乎專業機構投資表現</td>
-                <td>中等，部分可調整投資組合</td>
-				<td>中長期，5年以上</td>
-				<td>高，與市場密切相關</td>
-				<td>視保險公司而定，信用度高</td>
+                <th>市場相關性</th>
+                <td class="white">受市場影響有限</td>
+                <td class="green">輕微受利率影響</td>
+                <td class="red">高，與市場密切相關</td>
+                <td class="white">中等，受利率影響</td>
+                <td class="red">高，與市場密切相關</td>
+                <td class="green">低，市場影響小</td>
             </tr>
             <tr>
-                <th>年金</th>
-                <td>回報固定，通常較低</td>
-                <td>高，提供穩定收入</td>
-                <td>低，通常固定支付</td>
-				<td>長期</td>
-				<td>低，市場影響小</td>
-				<td>視保險公司而定，信用度高</td>
+                <th>信用度</th>
+                <td class="green">由保險公司提供，信用度高</td>
+                <td class="green">非常高，由銀行提供</td>
+                <td class="red">視公司而定，個股風險較大</td>
+                <td class="green">視發行機構而定，政府債券信用度高</td>
+                <td class="green">視保險公司而定，信用度高</td>
+                <td class="green">視保險公司而定，信用度高</td>
             </tr>
         </tbody>
     </table>	
+
     <script>
         const productData = {
             saving: {
@@ -222,7 +237,7 @@
             },
             termDeposit: {
                 label: '定期存款 (Term Deposit)',
-                data: [1, 2, 1, 5, 1, 5],
+                data: [1, 5, 1, 1, 1, 5],
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)'
             },
@@ -258,7 +273,7 @@
             }
         };
 
-        const labels = ['預期回報率', '投資期限', '靈活性', '資本保護性', '市場相關性', '信用度'];
+        const labels = ['預期回報率', '資本保護性', '靈活性', '投資期限', '市場相關性', '信用度'];
 
         const config = {
             type: 'radar',
@@ -306,12 +321,12 @@
             const product1 = document.getElementById('product1').value;
             const product2 = document.getElementById('product2').value;
             const customLabel = document.getElementById('customProductLabel').value;
-            const customReturn = document.getElementById('customReturn').value;
-            const customRisk = document.getElementById('customRisk').value;
-            const customLiquidity = document.getElementById('customLiquidity').value;
-            const customTerm = document.getElementById('customTerm').value;
-            const customDiversity = document.getElementById('customDiversity').value;
-            const customVolatility = document.getElementById('customVolatility').value;
+            const customReturn = parseFloat(document.getElementById('customReturn').value);
+            const customRisk = parseFloat(document.getElementById('customRisk').value);
+            const customLiquidity = parseFloat(document.getElementById('customLiquidity').value);
+            const customTerm = parseFloat(document.getElementById('customTerm').value);
+            const customDiversity = parseFloat(document.getElementById('customDiversity').value);
+            const customVolatility = parseFloat(document.getElementById('customVolatility').value);
 
             productData.customProduct.label = customLabel;
             productData.customProduct.data = [customReturn, customRisk, customLiquidity, customTerm, customDiversity, customVolatility];
@@ -328,65 +343,64 @@
             document.getElementById('product2Label').innerText = productData[product2].label;
             document.getElementById('customProductLabelTable').innerText = customLabel;
 
-            updateTableCell('product1Return', productData[product1].data[0], getDescription(productData[product1].data[0]), true);
-            updateTableCell('product1Risk', productData[product1].data[1], getDescription(productData[product1].data[1]), true);
-            updateTableCell('product1Liquidity', productData[product1].data[2], getDescription(productData[product1].data[2]), true);
-            updateTableCell('product1Term', productData[product1].data[3], getDescription(productData[product1].data[3], '期限'), false);
-            updateTableCell('product1Diversity', productData[product1].data[4], getDescription(productData[product1].data[4]), false);
-            updateTableCell('product1Volatility', productData[product1].data[5], getDescription(productData[product1].data[5]), true);
+        updateTableCell('product1Return', productData[product1].data[0], getDescription(productData[product1].data[0]), true);
+        updateTableCell('product1Risk', productData[product1].data[1], getDescription(productData[product1].data[1]), true);
+        updateTableCell('product1Liquidity', productData[product1].data[2], getDescription(productData[product1].data[2]), true);
+        updateTableCell('product1Term', productData[product1].data[3], getDescription(productData[product1].data[3], '期限'), false);
+        updateTableCell('product1Diversity', productData[product1].data[4], getDescription(productData[product1].data[4]), false);
+        updateTableCell('product1Volatility', productData[product1].data[5], getDescription(productData[product1].data[5]), true);
 
-            updateTableCell('product2Return', productData[product2].data[0], getDescription(productData[product1].data[0]), true);
-            updateTableCell('product2Risk', productData[product2].data[1], getDescription(productData[product2].data[1]), true);
-            updateTableCell('product2Liquidity', productData[product2].data[2], getDescription(productData[product2].data[2]), true);
-            updateTableCell('product2Term', productData[product2].data[3], getDescription(productData[product2].data[3], '期限'), false);
-            updateTableCell('product2Diversity', productData[product2].data[4], getDescription(productData[product2].data[4]), false);
-            updateTableCell('product2Volatility', productData[product2].data[5], getDescription(productData[product2].data[5]), true);
+        updateTableCell('product2Return', productData[product2].data[0], getDescription(productData[product2].data[0]), true);
+        updateTableCell('product2Risk', productData[product2].data[1], getDescription(productData[product2].data[1]), true);
+        updateTableCell('product2Liquidity', productData[product2].data[2], getDescription(productData[product2].data[2]), true);
+        updateTableCell('product2Term', productData[product2].data[3], getDescription(productData[product2].data[3], '期限'), false);
+        updateTableCell('product2Diversity', productData[product2].data[4], getDescription(productData[product2].data[4]), false);
+        updateTableCell('product2Volatility', productData[product2].data[5], getDescription(productData[product2].data[5]), true);
 
-            updateTableCell('customProductReturn', customReturn, getDescription(productData[product1].data[0]), true);
-            updateTableCell('customProductRisk', customRisk, getDescription(customRisk), true);
-            updateTableCell('customProductLiquidity', customLiquidity, getDescription(customLiquidity), true);
-            updateTableCell('customProductTerm', customTerm, getDescription(customTerm, '期限'), false);
-            updateTableCell('customProductDiversity', customDiversity, getDescription(customDiversity), false);
-            updateTableCell('customProductVolatility', customVolatility, getDescription(customVolatility), true);
-        }
+        updateTableCell('customProductReturn', customReturn, getDescription(productData[product1].data[0]), true);
+        updateTableCell('customProductRisk', customRisk, getDescription(customRisk), true);
+        updateTableCell('customProductLiquidity', customLiquidity, getDescription(customLiquidity), true);
+        updateTableCell('customProductTerm', customTerm, getDescription(customTerm, '期限'), false);
+        updateTableCell('customProductDiversity', customDiversity, getDescription(customDiversity), false);
+        updateTableCell('customProductVolatility', customVolatility, getDescription(customVolatility), true);
+    }
 
-        function getDescription(score, type) {
-            if (type === '期限') {
-                if (score <= 2) return '短';
-                if (score <= 4) return '中';
-                return '長';
-            }
-            if (score <= 2) return '低';
+    function getDescription(score, type) {
+        if (type === '期限') {
+            if (score <= 2) return '短';
             if (score <= 4) return '中';
-            return '高';
+            return '長';
+        }
+        if (score <= 2) return '低';
+        if (score <= 4) return '中';
+        return '高';
+    }
+
+    function updateTableCell(elementId, score, description, isPositive) {
+        const cell = document.getElementById(elementId);
+        if (description) {
+            cell.innerHTML = `${score} <br><span class="description">${description}</span>`;
+        } else {
+            cell.innerHTML = `${score}`;
         }
 
-        function updateTableCell(elementId, score, description, isPositive) {
-            const cell = document.getElementById(elementId);
-            if (description) {
-                cell.innerHTML = `${score} <br><span class="description">${description}</span>`;
-            } else {
-                cell.innerHTML = `${score}`;
+        cell.classList.remove('positive', 'negative');
+        if (isPositive) {
+            if (score >= 4) {
+                cell.classList.add('positive');
+            } else if (score <= 2) {
+                cell.classList.add('negative');
             }
-
-            cell.classList.remove('positive', 'negative');
-            if (isPositive) {
-                if (score >= 4) {
-                    cell.classList.add('positive');
-                } else if (score <= 2) {
-                    cell.classList.add('negative');
-                }
-            } else {
-                if (score >= 4) {
-                    cell.classList.add('negative');
-                } else if (score <= 2) {
-                    cell.classList.add('positive');
-                }
+        } else {
+            if (score >= 4) {
+                cell.classList.add('negative');
+            } else if (score <= 2) {
+                cell.classList.add('positive');
             }
         }
+    }
 
         // 初始化圖表
         updateChart();
     </script>
-</body>
-</html>
+</
