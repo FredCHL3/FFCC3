@@ -3,48 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>退休計劃問答</title>
+    <title>退休計劃助手</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 40px auto;
             padding: 20px;
-            background-color: white;
+            background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         h2 {
             text-align: center;
-            color: #333;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .intro {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
         .question {
             margin-bottom: 20px;
         }
         .question h3 {
             margin-bottom: 10px;
+            color: #0056b3;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        small {
+            display: block;
+            margin-top: -8px;
+            margin-bottom: 10px;
             color: #555;
         }
-        .question div, .question label {
-            margin-bottom: 5px;
-            display: block;
-            color: #777;
-        }
         .submit-button {
-            display: block;
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background-color: #007bff;
             color: white;
             border: none;
-            cursor: pointer;
-            text-align: center;
             border-radius: 5px;
             font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         .submit-button:hover {
             background-color: #0056b3;
@@ -54,104 +77,144 @@
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            background-color: #fafafa;
+            background-color: #e9ecef;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
-        .result h3 {
+        .card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .card h3 {
             color: #333;
+            margin-bottom: 10px;
         }
-        .result p {
+        .card p {
             color: #555;
+            font-size: 18px;
+            margin: 0;
+        }
+        .highlight {
+            font-size: 24px;
+            color: #d9534f;
+            font-weight: bold;
         }
         .formula {
-            background-color: #e9ecef;
+            background-color: #f1f3f5;
             padding: 10px;
             border-radius: 5px;
-            margin-bottom: 10px;
             font-family: monospace;
-        }
-        .icon {
-            width: 24px;
-            height: 24px;
-            vertical-align: middle;
-            margin-right: 5px;
+            white-space: pre-wrap;
         }
         canvas {
             max-width: 100%;
-            margin: 20px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>退休計劃問答</h2>
+        <h2>退休計算機</h2>
+        <div class="intro">
+            歡迎使用退休計劃助手！想像一下，您夢想中的退休生活是怎樣的呢？<br>
+            是維持現在的生活品質，還是希望過上更加豐富多彩的生活？<br>
+            讓我們一起來計算一下，看看您需要怎樣的財務安排來實現這個夢想吧！
+        </div>
 
         <form id="retirementForm">
             <div class="question">
                 <h3>個人資料</h3>
                 <label for="currentAge">現今年齡:</label>
-                <input type="number" id="currentAge" name="currentAge" min="0" required>
+                <input type="number" id="currentAge" name="currentAge" min="0" required placeholder="輸入您的年齡">
             </div>
 
             <div class="question">
                 <h3>退休計劃</h3>
                 <label for="retirementAge">預計退休年齡:</label>
-                <input type="number" id="retirementAge" name="retirementAge" min="0" required>
+                <input type="number" id="retirementAge" name="retirementAge" min="0" required placeholder="輸入退休年齡">
 
                 <label for="endOfLifeAge">預計壽命年齡:</label>
-                <input type="number" id="endOfLifeAge" name="endOfLifeAge" min="0" required>
+                <input type="number" id="endOfLifeAge" name="endOfLifeAge" min="0" required placeholder="輸入預計壽命">
             </div>
 
             <div class="question">
                 <h3>退休後開支</h3>
                 <h4>A) 每年開支</h4>
                 <label for="monthlyExpenses">每月生活費 (港幣 HKD):</label>
-                <input type="number" id="monthlyExpenses" name="monthlyExpenses" min="0" required>
+                <input type="number" id="monthlyExpenses" name="monthlyExpenses" min="0" required placeholder="輸入每月生活費">
+                <small>可參考現時生活水平，作出加減調整</small>
 
                 <label for="annualTravelExpenses">每年旅行費用 (港幣 HKD):</label>
-                <input type="number" id="annualTravelExpenses" name="annualTravelExpenses" min="0" required>
+                <input type="number" id="annualTravelExpenses" name="annualTravelExpenses" min="0" required placeholder="輸入每年旅行費用">
 
                 <label for="annualChildExpenses">每年子女支出 (港幣 HKD):</label>
-                <input type="number" id="annualChildExpenses" name="annualChildExpenses" min="0" required>
+                <input type="number" id="annualChildExpenses" name="annualChildExpenses" min="0" required placeholder="輸入每年子女支出">
 
                 <label for="childSupportYears">供養年期 (年):</label>
-                <input type="number" id="childSupportYears" name="childSupportYears" min="0" required>
+                <input type="number" id="childSupportYears" name="childSupportYears" min="0" required placeholder="輸入供養年期">
             </div>
 
             <div class="question">
                 <h4>B) 大額開支</h4>
                 <label for="medicalExpenses">醫療 (港幣 HKD):</label>
-                <input type="number" id="medicalExpenses" name="medicalExpenses" min="0" required>
+                <input type="number" id="medicalExpenses" name="medicalExpenses" min="0" required placeholder="輸入醫療費用">
 
                 <label for="educationFund">升學基金 (港幣 HKD):</label>
-                <input type="number" id="educationFund" name="educationFund" min="0" required>
+                <input type="number" id="educationFund" name="educationFund" min="0" required placeholder="輸入升學基金">
 
                 <label for="otherExpenses">其他 (港幣 HKD):</label>
-                <input type="number" id="otherExpenses" name="otherExpenses" min="0">
+                <input type="number" id="otherExpenses" name="otherExpenses" min="0" placeholder="輸入其他費用">
+            </div>
+
+            <div class="question">
+                <h3>退休後資產</h3>
+                <label for="currentAssets">現有資產 (港幣 HKD):</label>
+                <input type="number" id="currentAssets" name="currentAssets" min="0" required placeholder="輸入現有資產">
+
+                <label for="monthlyIncome">退休後每月收入 (港幣 HKD):</label>
+                <input type="number" id="monthlyIncome" name="monthlyIncome" min="0" required placeholder="輸入退休後每月收入">
+
+                <label for="incomeGrowthRate">收入年增長率 (%):</label>
+                <input type="number" id="incomeGrowthRate" name="incomeGrowthRate" min="0" step="0.1" required placeholder="輸入收入年增長率">
             </div>
 
             <div class="question">
                 <h4>C) 年通脹率</h4>
                 <label for="inflationRate">年通脹率 (%):</label>
-                <input type="number" id="inflationRate" name="inflationRate" min="0" step="0.1" required>
+                <input type="number" id="inflationRate" name="inflationRate" min="0" step="0.1" required placeholder="輸入年通脹率">
             </div>
 
             <button type="button" class="submit-button" onclick="calculateRetirementPlan()">提交</button>
         </form>
 
-        <div id="result" class="result">
-            <h3>結果</h3>
-            <p id="totalAmount"></p>
-            <p id="monthlyPassiveIncome"></p>
-            <h4>計算公式:</h4>
-            <div class="formula" id="calculationSteps"></div>
-            <canvas id="expenseChart"></canvas>
-            <canvas id="incomeChart"></canvas>
+        <div id="result" class="result" style="display: none;">
+            <div class="card">
+                <h3>總金額</h3>
+                <p id="totalAmount" class="highlight"></p>
+                <p id="monthlyPassiveIncome"></p>
+            </div>
+            <canvas id="totalExpensesOverTimeChart"></canvas>
+            <div class="card">
+                <h3>比較</h3>
+                <p id="comparison"></p>
+            </div>
+            <div class="card">
+                <h3>計算公式</h3>
+                <div id="formula" class="formula"></div>
+            </div>
         </div>
     </div>
 
     <script>
+        let chartInstance = null;
+
+        function formatNumber(num) {
+            return num.toLocaleString('zh-Hant');
+        }
+
         function calculateRetirementPlan() {
-            const currentAge = parseInt(document.getElementById('currentAge').value);
             const retirementAge = parseInt(document.getElementById('retirementAge').value);
             const endOfLifeAge = parseInt(document.getElementById('endOfLifeAge').value);
             const monthlyExpenses = parseFloat(document.getElementById('monthlyExpenses').value);
@@ -161,6 +224,9 @@
             const medicalExpenses = parseFloat(document.getElementById('medicalExpenses').value);
             const educationFund = parseFloat(document.getElementById('educationFund').value);
             const otherExpenses = parseFloat(document.getElementById('otherExpenses').value) || 0;
+            const currentAssets = parseFloat(document.getElementById('currentAssets').value);
+            const monthlyIncome = parseFloat(document.getElementById('monthlyIncome').value);
+            const incomeGrowthRate = parseFloat(document.getElementById('incomeGrowthRate').value) / 100;
             const inflationRate = parseFloat(document.getElementById('inflationRate').value) / 100;
 
             const retirementYears = endOfLifeAge - retirementAge;
@@ -168,106 +234,94 @@
             const totalAnnualExpenses = annualLivingExpenses + annualTravelExpenses + (annualChildExpenses * Math.min(childSupportYears, retirementYears));
 
             let totalExpenses = 0;
+            let totalIncome = 0;
+            const expensesOverTime = [];
             for (let i = 0; i < retirementYears; i++) {
-                totalExpenses += totalAnnualExpenses * Math.pow(1 + inflationRate, i);
+                const annualExpense = totalAnnualExpenses * Math.pow(1 + inflationRate, i);
+                const annualIncome = monthlyIncome * 12 * Math.pow(1 + incomeGrowthRate, i);
+                totalExpenses += annualExpense;
+                totalIncome += annualIncome;
+                expensesOverTime.push({ year: retirementAge + i, expense: totalExpenses - totalIncome });
             }
 
             totalExpenses += medicalExpenses + educationFund + otherExpenses;
+            totalExpenses -= currentAssets;
+
+            const zeroInflationExpensesOverTime = [];
+            let zeroInflationTotalExpenses = 0;
+            let zeroInflationTotalIncome = 0;
+            for (let i = 0; i < retirementYears; i++) {
+                zeroInflationTotalExpenses += totalAnnualExpenses;
+                zeroInflationTotalIncome += monthlyIncome * 12 * Math.pow(1 + incomeGrowthRate, i);
+                zeroInflationExpensesOverTime.push({ year: retirementAge + i, expense: zeroInflationTotalExpenses - zeroInflationTotalIncome });
+            }
+
+            zeroInflationTotalExpenses += medicalExpenses + educationFund + otherExpenses;
+            zeroInflationTotalExpenses -= currentAssets;
 
             const totalAmount = document.getElementById('totalAmount');
             const monthlyPassiveIncome = document.getElementById('monthlyPassiveIncome');
-            const calculationStepsElement = document.getElementById('calculationSteps');
+            const comparison = document.getElementById('comparison');
+            const formula = document.getElementById('formula');
 
-            totalAmount.innerHTML = `<img src="https://img.icons8.com/ios-filled/50/000000/calculate.png" class="icon">退休計劃的總金額 (由退休後至壽命終止): ${totalExpenses.toFixed(2)} 港幣`;
-            monthlyPassiveIncome.innerHTML = `<img src="https://img.icons8.com/ios-filled/50/000000/money-bag.png" class="icon">退休後估算每月需要的被動收入金額: ${(totalExpenses / (retirementYears * 12)).toFixed(2)} 港幣`;
+            totalAmount.innerHTML = `您的退休計劃總金額是 ${formatNumber(totalExpenses)} 港幣`;
+            monthlyPassiveIncome.innerHTML = `每月需要的被動收入約為 ${formatNumber(totalExpenses / (retirementYears * 12))} 港幣`;
+            comparison.innerHTML = `有通脹的累積總開支: ${formatNumber(totalExpenses)} 港幣<br>無通脹的累積總開支: ${formatNumber(zeroInflationTotalExpenses)} 港幣<br>差距: ${formatNumber(totalExpenses - zeroInflationTotalExpenses)} 港幣`;
 
-            const formula1 = `每年開支的現值總和 * (1 + 年通脹率)^退休生活年期 + 醫療開支 + 升學基金 + 其他開支`;
-            const formula2 = `總退休計劃金額 / (退休年數 * 12)`;
-
-            const formulaDisplay = `
+            formula.innerHTML = `
 總退休計劃金額運算如下:
-${formula1}
+每年開支的現值總和 * (1 + 年通脹率)^退休生活年期 + 醫療開支 + 升學基金 + 其他開支 - 退休後每月收入 * (1 + 其年增長率)^退休生活年期 - 現有資產
+`;
 
-退休計劃的總金額 (由退休後至壽命終止): ${totalExpenses.toFixed(2)} 港幣
+            document.getElementById('result').style.display = 'flex';
 
-每月需要的被動收入金額運算如下:
-${formula2}
+            const totalExpensesOverTimeCtx = document.getElementById('totalExpensesOverTimeChart').getContext('2d');
 
-退休後估算每月需要的被動收入金額: ${(totalExpenses / (retirementYears * 12)).toFixed(2)} 港幣
-            `;
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
 
-            calculationStepsElement.innerText = formulaDisplay;
-
-            document.getElementById('result').style.display = 'block';
-
-            const expenseCtx = document.getElementById('expenseChart').getContext('2d');
-            const incomeCtx = document.getElementById('incomeChart').getContext('2d');
-
-            new Chart(expenseCtx, {
-                type: 'pie',
+            chartInstance = new Chart(totalExpensesOverTimeCtx, {
+                type: 'line',
                 data: {
-                    labels: ['生活費', '旅行費用', '子女支出', '醫療', '升學基金', '其他'],
-                    datasets: [{
-                        data: [
-                            totalAnnualExpenses * retirementYears,
-                            annualTravelExpenses * retirementYears,
-                            annualChildExpenses * Math.min(childSupportYears, retirementYears),
-                            medicalExpenses,
-                            educationFund,
-                            otherExpenses
-                        ],
-                        backgroundColor: [
-                            '#36a2eb',
-                            '#ff6384',
-                            '#ffcd56',
-                            '#4bc0c0',
-                            '#9966ff',
-                            '#c9cbcf'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
+                    labels: expensesOverTime.map(entry => entry.year),
+                    datasets: [
+                        {
+                            label: '累積總開支 (港幣) - 含通脹',
+                            data: expensesOverTime.map(entry => entry.expense),
+                            borderColor: '#ff6384',
+                            fill: false
                         },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ': ' + context.raw.toFixed(2) + ' 港幣';
-                                }
-                            }
+                        {
+                            label: '累積總開支 (港幣) - 無通脹',
+                            data: zeroInflationExpensesOverTime.map(entry => entry.expense),
+                            borderColor: '#36a2eb',
+                            fill: false
                         }
-                    }
-                }
-            });
-
-            new Chart(incomeCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['被動收入'],
-                    datasets: [{
-                        label: '每月需要的被動收入金額 (港幣)',
-                        data: [(totalExpenses / (retirementYears * 12))],
-                        backgroundColor: '#42a5f5'
-                    }]
+                    ]
                 },
                 options: {
                     responsive: true,
                     scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: '年份'
+                            }
+                        },
                         y: {
+                            title: {
+                                display: true,
+                                text: '累積總開支 (港幣)'
+                            },
                             beginAtZero: true
                         }
                     },
                     plugins: {
-                        legend: {
-                            display: false
-                        },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return context.raw.toFixed(2) + ' 港幣';
+                                    return formatNumber(context.raw) + ' 港幣';
                                 }
                             }
                         }
