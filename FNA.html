@@ -246,6 +246,7 @@
 
             totalExpenses += medicalExpenses + educationFund + otherExpenses;
             totalExpenses -= currentAssets;
+            totalExpenses -= totalIncome; // 減去累積的年收入
 
             const zeroInflationExpensesOverTime = [];
             let zeroInflationTotalExpenses = 0;
@@ -258,6 +259,7 @@
 
             zeroInflationTotalExpenses += medicalExpenses + educationFund + otherExpenses;
             zeroInflationTotalExpenses -= currentAssets;
+            zeroInflationTotalExpenses -= zeroInflationTotalIncome;
 
             const totalAmount = document.getElementById('totalAmount');
             const monthlyPassiveIncome = document.getElementById('monthlyPassiveIncome');
