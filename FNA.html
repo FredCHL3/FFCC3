@@ -142,14 +142,14 @@
             <div class="question">
                 <h3>退休後開支</h3>
                 <h4>A) 每年開支</h4>
-                <label for="monthlyExpenses">每月生活費 (港幣 HKD):</label>
+                <label for="monthlyExpenses">你退休後每月想有幾多錢生活? (港幣 HKD):</label>
                 <input type="number" id="monthlyExpenses" name="monthlyExpenses" min="0" required placeholder="輸入每月生活費">
-                <small>可參考現時生活水平，作出加減調整</small>
+                <small>可參考現時生活水平，作出調整</small>
 
-                <label for="annualTravelExpenses">每年旅行費用 (港幣 HKD):</label>
+                <label for="annualTravelExpenses">每年娛樂費用，如旅行 (港幣 HKD):</label>
                 <input type="number" id="annualTravelExpenses" name="annualTravelExpenses" min="0" required placeholder="輸入每年旅行費用">
 
-                <label for="annualChildExpenses">每年子女支出 (港幣 HKD):</label>
+                <label for="annualChildExpenses">每年家庭支出 (港幣 HKD):</label>
                 <input type="number" id="annualChildExpenses" name="annualChildExpenses" min="0" required placeholder="輸入每年子女支出">
 
                 <label for="childSupportYears">供養年期 (年):</label>
@@ -264,9 +264,9 @@
             const comparison = document.getElementById('comparison');
             const formula = document.getElementById('formula');
 
-            totalAmount.innerHTML = `您的退休計劃總金額是 ${formatNumber(totalExpenses)} 港幣`;
+            totalAmount.innerHTML = `在通脹影響下，您的退休計劃實際需要 ${formatNumber(totalExpenses)} 港幣`;
             monthlyPassiveIncome.innerHTML = `每月需要的被動收入約為 ${formatNumber(totalExpenses / (retirementYears * 12))} 港幣`;
-            comparison.innerHTML = `有通脹的累積總開支: ${formatNumber(totalExpenses)} 港幣<br>無通脹的累積總開支: ${formatNumber(zeroInflationTotalExpenses)} 港幣<br>差距: ${formatNumber(totalExpenses - zeroInflationTotalExpenses)} 港幣`;
+            comparison.innerHTML = `包括通脹的累積開支: ${formatNumber(totalExpenses)} 港幣<br>減去通脹的累積退休開支: ${formatNumber(zeroInflationTotalExpenses)} 港幣<br>差距: ${formatNumber(totalExpenses - zeroInflationTotalExpenses)} 港幣`;
 
             formula.innerHTML = `
 總退休計劃金額運算如下:
