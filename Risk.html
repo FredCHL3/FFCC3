@@ -48,10 +48,12 @@
             padding: 20px;
             border: 1px solid #ddd;
             display: none;
+            text-align: center;
         }
-        canvas {
+        .result img {
             max-width: 100%;
-            margin: 20px 0;
+            height: auto;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -69,98 +71,99 @@
 
         <form id="riskAssessmentForm">
             <div class="question">
-                <h3>年齡選項</h3>
-                <div><input type="radio" name="age" value="12"> 18-30 歲</div>
-                <div><input type="radio" name="age" value="9"> 31-40 歲</div>
-                <div><input type="radio" name="age" value="6"> 41-50 歲</div>
-                <div><input type="radio" name="age" value="3"> 51 歲以上</div>
+                <h3>以下哪項最能說明您目前的人生？</h3>
+                <div><input type="radio" name="age" value="7"> 18歲-45歲，財政負擔不大</div>
+                <div><input type="radio" name="age" value="5"> 18歲-45歲，有若干財政負擔</div>
+                <div><input type="radio" name="age" value="3"> 45歲-65歲，財政負擔不大</div>
+                <div><input type="radio" name="age" value="1"> 45歲-65歲，有若干財政負擔</div>
+				<div><input type="radio" name="age" value="1"> 65歲或以上，財政負擔不大</div>
+				<div><input type="radio" name="age" value="0"> 65歲或以上，有若干財政負擔</div>
             </div>
 
             <div class="question">
-                <h3>1. 你剛剛得到了一筆意外之財，你會怎麼做？</h3>
-                <div><input type="radio" name="unexpectedWealth" value="1"> 存入銀行，獲取穩定的利息</div>
-                <div><input type="radio" name="unexpectedWealth" value="2"> 部分存入銀行，部分用於低風險的投資</div>
-                <div><input type="radio" name="unexpectedWealth" value="3"> 大部分用於中等風險的投資，期望獲取較高回報</div>
-                <div><input type="radio" name="unexpectedWealth" value="4"> 全部用於高風險的投資，期望獲取最大回報</div>
+                <h3>1.  您如何做出財務決策？</h3>
+                <div><input type="radio" name="decisionWealth" value="7"> 我擁有專業團隊，負責投資╱對沖決策。</div>
+                <div><input type="radio" name="decisionWealth" value="5"> 自己擁有專業知識，可進行投資╱對沖決策。</div>
+                <div><input type="radio" name="decisionWealth" value="3"> 我做一些研究並運用常識。</div>
+                <div><input type="radio" name="decisionWealth" value="2"> 我喜歡向他人學習並保持謹慎。</div>
+                <div><input type="radio" name="decisionWealth" value="1"> 我是新手，樂於學習。</div>
             </div>
 
             <div class="question">
-                <h3>2. 你在旅行時發現了一個獨特的商機，你會怎麼做？</h3>
-                <div><input type="radio" name="businessOpportunity" value="1"> 不會考慮，因為風險太大</div>
-                <div><input type="radio" name="businessOpportunity" value="2"> 會觀察一段時間，再決定是否投入</div>
-                <div><input type="radio" name="businessOpportunity" value="3"> 會嘗試少量投資，看看效果</div>
-                <div><input type="radio" name="businessOpportunity" value="4"> 立即大額投資，希望趁機獲利</div>
+                <h3>2. 您在投資方面有多少經驗？</h3>
+                <div><input type="radio" name="businessExp" value="0"> 完全沒有</div>
+                <div><input type="radio" name="businessExp" value="2"> 剛剛起步</div>
+                <div><input type="radio" name="businessExp" value="3"> 有幾年經驗</div>
+                <div><input type="radio" name="businessExp" value="4"> 經驗豐富</div>
+				<div><input type="radio" name="businessExp" value="5"> 投資老手</div>
             </div>
 
             <div class="question">
-                <h3>3. 你發現你的朋友在一個新興市場賺了很多錢，你會怎麼做？</h3>
-                <div><input type="radio" name="friendsSuccess" value="1"> 祝賀朋友，但不會跟風投資</div>
-                <div><input type="radio" name="friendsSuccess" value="2"> 會進行研究後，謹慎投資</div>
-                <div><input type="radio" name="friendsSuccess" value="3"> 會嘗試少量投資，看看效果</div>
-                <div><input type="radio" name="friendsSuccess" value="4"> 立即大額投資，希望也能賺錢</div>
+                <h3>3. 過去 24 個月曾持有過哪些投資產品？</h3>
+                <div><input type="radio" name="businessExp" value="9"> 期貨╱期權╱合約</div>
+                <div><input type="radio" name="businessExp" value="7"> 股票（非藍籌）╱對沖基金</div>
+                <div><input type="radio" name="businessExp" value="5"> 股票（藍籌）╱均衡基金</div>
+                <div><input type="radio" name="businessExp" value="3"> 債券╱外幣</div>
+				<div><input type="radio" name="businessExp" value="1"> 定期╱保本型投資產品</div>
+				<div><input type="radio" name="businessExp" value="1"> 過去 24 個月未持有以上投資產品，但有投資經驗</div>
+				<div><input type="radio" name="businessExp" value="0"> 從不投資</div>
             </div>
 
             <div class="question">
-                <h3>4. 你聽說某隻股票即將大幅上漲，你會怎麼做？</h3>
-                <div><input type="radio" name="stockRise" value="1"> 不會考慮購買，因為風險太大</div>
-                <div><input type="radio" name="stockRise" value="2"> 會觀察一段時間，再決定是否購買</div>
-                <div><input type="radio" name="stockRise" value="3"> 會購買少量股票，嘗試一下</div>
-                <div><input type="radio" name="stockRise" value="4"> 立即購買，希望趁機獲利</div>
+                <h3>4. 假設您收到了一筆突如其來的獎金(如六合彩)，您用多少進行投資？</h3>
+                <div><input type="radio" name="proportionInvest" value="1"> 少於 10%</div>
+                <div><input type="radio" name="proportionInvest" value="2"> 10% - 20%</div>
+                <div><input type="radio" name="proportionInvest" value="3"> 21% - 30%</div>
+                <div><input type="radio" name="proportionInvest" value="4"> 31% - 50%</div>
+                <div><input type="radio" name="proportionInvest" value="5"> 多於 50%</div>
             </div>
 
             <div class="question">
-                <h3>5. 當你發現自己投資的某隻股票價格大幅下跌，你會怎麼做？</h3>
-                <div><input type="radio" name="stockFall" value="1"> 立即賣出，避免進一步的損失</div>
-                <div><input type="radio" name="stockFall" value="2"> 感到焦慮，但會觀察一段時間再做決定</div>
-                <div><input type="radio" name="stockFall" value="3"> 保持冷静，根據市場情況進行調整</div>
-                <div><input type="radio" name="stockFall" value="4"> 完全不擔心，相信長期投資能夠回本</div>
+                <h3>5. 您有一筆閒置資金(如定期存款到期)，您用多少進行投資？</h3>
+                <div><input type="radio" name="proportionInvest" value="1"> 少於 10%</div>
+                <div><input type="radio" name="proportionInvest" value="2"> 10% - 20%</div>
+                <div><input type="radio" name="proportionInvest" value="3"> 21% - 30%</div>
+                <div><input type="radio" name="proportionInvest" value="5"> 31% - 50%</div>
+                <div><input type="radio" name="proportionInvest" value="5"> 多於 50%</div>
             </div>
 
             <div class="question">
-                <h3>6. 你如何面對生活中的壓力？</h3>
-                <div><input type="radio" name="stress" value="1"> 通過運動或冥想來放鬆自己</div>
-                <div><input type="radio" name="stress" value="2"> 與朋友或家人聊天，尋求支持</div>
-                <div><input type="radio" name="stress" value="3"> 尋找新的愛好或活動來轉移注意力</div>
-                <div><input type="radio" name="stress" value="4"> 面對壓力，嘗試解決問題</div>
+                <h3>6. 您如何應對突發開支？</h3>
+                <div><input type="radio" name="contingency" value="0"> 少於一個月的開支儲備</div>
+                <div><input type="radio" name="contingency" value="1"> 足夠幾個月</div>
+                <div><input type="radio" name="contingency" value="3"> 半年的開支儲備</div>
+                <div><input type="radio" name="contingency" value="5"> 一年或更多的開支儲備</div>
+                <div><input type="radio" name="contingency" value="5"> 完全準備應對任何情況</div>
+				</div>
+
+            <div class="question">
+                <h3>7. 您的理想投資時間範圍是多久？</h3>
+                <div><input type="radio" name="timeInvest" value="1"> 少於一年</div>
+                <div><input type="radio" name="timeInvest" value="2"> 1 - 5年</div>
+                <div><input type="radio" name="timeInvest" value="3"> 6 - 10年</div>
+                <div><input type="radio" name="timeInvest" value="5"> 11 - 20年</div>
+                <div><input type="radio" name="timeInvest" value="5"> 超過20年</div>
             </div>
 
             <div class="question">
-                <h3>7. 當你計劃一次旅行時，你會怎麼做？</h3>
-                <div><input type="radio" name="travel" value="1"> 提前詳細計劃好每個細節</div>
-                <div><input type="radio" name="travel" value="2"> 做一些基本準備，然後隨遇而安</div>
-                <div><input type="radio" name="travel" value="3"> 聽從朋友的建議，簡單安排</div>
-                <div><input type="radio" name="travel" value="4"> 說走就走，享受即興旅行</div>
-            </div>
-
-            <div class="question">
-                <h3>8. 你在投資前會怎樣做準備？</h3>
-                <div><input type="radio" name="preparation" value="1"> 非常謹慎，會花很多時間研究和比較</div>
-                <div><input type="radio" name="preparation" value="2"> 會進行基本研究後做出決定</div>
-                <div><input type="radio" name="preparation" value="3"> 相信自己的直覺，較快速做出決定</div>
-                <div><input type="radio" name="preparation" value="4"> 大膽投資，幾乎不做太多研究</div>
-            </div>
-
-            <div class="question">
-                <h3>9. 你的投資目標通常是什麼？</h3>
-                <div><input type="radio" name="investmentGoal" value="1"> 保本，獲取穩定的回報</div>
-                <div><input type="radio" name="investmentGoal" value="2"> 部分保本，追求適度增值</div>
-                <div><input type="radio" name="investmentGoal" value="3"> 追求資本增值，承受一定風險</div>
-                <div><input type="radio" name="investmentGoal" value="4"> 追求高額回報，願意承受高風險</div>
+                <h3>8. 哪句話最能描述您的投資理念？</h3>
+                <div><input type="radio" name="styleInvest" value="0"> 我避免風險並專注於穩定性。</div>
+                <div><input type="radio" name="styleInvest" value="1"> 我喜歡一些風險以獲得適度回報。</div>
+                <div><input type="radio" name="styleInvest" value="3"> 我接受風險以追求更高回報。</div>
+                <div><input type="radio" name="styleInvest" value="4"> 我喜歡冒險，尋求更大收益。</div>
+                <div><input type="radio" name="styleInvest" value="5"> 我無懼風險，追求最大回報。</div>
             </div>
 
             <button type="button" class="submit-button" onclick="calculateRiskTolerance()">提交</button>
         </form>
 
         <div id="result" class="result">
-            <h3>你的自己的投資心理結果</h3>
-			<p>您的總分：<span id="totalScore"></span>/48</p>
-            <p id="investorType"></p>
-            <p id="resultText"></p>
-			<p id="investorStory"></p>
-            <h3>以下為依照你的投資心理而提出的投資分佈參考:</h3>
-			<h3>此結果沒有嚴謹科學查証，謹記切勿盲目跟從!</h3>
-            <p id="mptAdvice"></p>
-            <canvas id="mptChart"></canvas>
+            <h2>你的投資心理探索結果</h2>
+            <h3>您的總分：<span id="totalScore"></span>/53</h3>
+            <h3 id="investorType"></h3>
+            <h3 id="resultText"></h3>
+            <h3 id="investorStory"></h3>
+            <img id="investorImage" src="" alt="投資者圖片">
         </div>
     </div>
 
@@ -171,106 +174,47 @@
             let score = 0;
 
             formData.forEach((value, key) => {
-                if (key.match(/^(age|unexpectedWealth|businessOpportunity|friendsSuccess|stockRise|stockFall|stress|travel|preparation|investmentGoal)$/)) {
+                if (key.match(/^(age|decisionWealth|businessExp|proportionInvest|stockRise|stockFall|contingency|timeInvest|styleInvest|investmentGoal)$/)) {
                     score += parseInt(value);
                 }
             });
 
             const resultText = document.getElementById('resultText');
-            const mptAdvice = document.getElementById('mptAdvice');
             const investorType = document.getElementById('investorType');
             const investorStory = document.getElementById('investorStory');
             const totalScore = document.getElementById('totalScore');
-            let riskLevel;
-            let allocation;
-            let type;
-            let story;
+            const investorImage = document.getElementById('investorImage');
+            let type, story, imageUrl;
 
-            if (score <= 16) {
-                riskLevel = '低風險';
-                allocation = {
-                    labels: ['低風險產品（如：定期存款）', '中風險產品（如：債券）', '現金或等價物'],
-                    data: [50, 30, 20]
-                };
-                mptAdvice.innerHTML = '50% 低風險產品（如：定期存款），30% 中低風險產品（如：債券），20% 現金或等價物。';
-                type = '保守型投資者';
-                story = '你是一位穩健的導航者，總是優先考慮資本的安全。每當市場波動，你都能保持冷靜，將大部分資金放在穩定的債券和現金中。你的目標是確保資產穩固，為未來的每一步做好準備。這種策略讓你在生活中擁有持續的安全感，使你能專注於享受家庭時光和計劃退休生活。';
-            } else if (score <= 32) {
-                riskLevel = '中等風險';
-                allocation = {
-                    labels: ['中低風險產品（如：債券）', '中風險產品（如：派息基金）', '高風險產品（如：股票）'],
-                    data: [40, 40, 20]
-                };
-                mptAdvice.innerHTML = '40% 中低風險產品（如：債券），40% 中風險產品（如：派息基金），20% 高風險產品（如：股票）。';
-                type = '平衡型投資者';
-                story = '你是一位善於平衡的藝術家，追求風險與回報的和諧。你的資產分配得當，既不過於保守也不冒險。股票和債券並存，現金也佔有一席之地。你的理財目標是實現穩定增長，為自己和家人創造美好的未來。這種平衡使你能夠在職業與生活中找到一個健康的節奏，讓人生更加豐富多彩。';
+            if (score <= 13) {
+                type = '低風險取向';
+                story = '你是謹慎的貓頭鷹，您偏好穩定性和低風險以獲得安心。';
+                imageUrl = 'Owl.jpeg';  // Example image URL
+            } else if (score <= 23) {
+                type = '低至中風險取向';
+                story = '你是深思熟慮的烏龜，您以衡量步伐平衡風險與回報。';
+                imageUrl = 'Turtle.jpeg';  // Example image URL
+            } else if (score <= 33) {
+                type = '中風險取向';
+                story = '你是均衡的熊，您追求穩定增長並接受一定風險。';
+				imageUrl = 'Bear.jpg';  // Example image URL
+            } else if (score <= 43) {
+                type = '中至高風險取向';
+                story = '你是勇敢的鷹，您目標高遠，接受更多風險以獲得更大回報。';
+				imageUrl = 'Eagle.jpg';  // Example image URL
             } else {
-                riskLevel = '高風險';
-                allocation = {
-                    labels: ['低風險產品（如：債券）', '中風險產品（如：派息基金）', '高風險產品（如：股票）'],
-                    data: [20, 30, 50]
-                };
-                mptAdvice.innerHTML = '20% 低風險產品（如：債券），30% 中風險產品（如：派息基金），50% 高風險產品（如：股票）。';
-                type = '積極型投資者';
-                story = '你是一位勇敢的冒險家，對未知世界充滿好奇和熱情。你的投資路徑充滿了股票和高風險的選擇，因為你相信高回報來自於大膽行動。你的目標是快速增長資產，支持你開創更多的事業和夢想。這種積極進取的策略讓你的人生充滿挑戰與成就感，不斷激勵你向前邁進。';
+                type = '高風險取向';
+                story = '你是無畏的豹子，您喜愛冒險並追求顯著增長。';
+				imageUrl = 'Leopard.jpg';  // Example image URL
             }
 
             investorType.innerHTML = `投資者類型：${type}`;
             investorStory.innerHTML = `${story}`;
             totalScore.innerHTML = score;
-
+            investorImage.src = imageUrl;
+			
+			document.getElementById('investorImage').src = imageUrl;
             document.getElementById('result').style.display = 'block';
-            displayChart(allocation);
-        }
-
-        function displayChart(allocation) {
-            const ctx = document.getElementById('mptChart').getContext('2d');
-            const data = {
-                labels: allocation.labels,
-                datasets: [{
-                    label: '投資分佈',
-                    data: allocation.data,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(201, 203, 207, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(153, 102, 255, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(201, 203, 207, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(153, 102, 255, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            };
-
-            const config = {
-                type: 'pie',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ' ' + context.raw + '%';
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-
-            new Chart(ctx, config);
         }
     </script>
 </body>
