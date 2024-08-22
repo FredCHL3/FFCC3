@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你認識自己的投資心理嗎?</title>
+    <title>你認識自己的投資人格嗎?</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -59,15 +59,16 @@
 </head>
 <body>
     <div class="container">
-        <h2>你認識自己的投資心理嗎</h2>
+        <h2>你認識自己的投資人格嗎</h2>
 
         <div class="welcome-text">            
-            <p>在開始之前，請放鬆心情，這是一個幫助您了解自己投資心理的小測驗。</p>
+            <p>在開始之前，請放鬆心情，這是一個幫助您了解自己投資人格的小測驗。</p>
         </div>
 
         <div class="role-text">
             <p>假設您是一位年輕的專業人士，剛剛開始您的職業生涯，並且有一些額外的資金可以進行投資。讓我們看看在不同情境下，您會如何做出決策。</p>
         </div>
+
 
         <form id="riskAssessmentForm">
             <div class="question">
@@ -76,12 +77,12 @@
                 <div><input type="radio" name="age" value="5"> 18歲-45歲，有若干財政負擔</div>
                 <div><input type="radio" name="age" value="3"> 45歲-65歲，財政負擔不大</div>
                 <div><input type="radio" name="age" value="1"> 45歲-65歲，有若干財政負擔</div>
-				<div><input type="radio" name="age" value="1"> 65歲或以上，財政負擔不大</div>
-				<div><input type="radio" name="age" value="0"> 65歲或以上，有若干財政負擔</div>
+                <div><input type="radio" name="age" value="1"> 65歲或以上，財政負擔不大</div>
+                <div><input type="radio" name="age" value="0"> 65歲或以上，有若干財政負擔</div>
             </div>
 
             <div class="question">
-                <h3>1.  您如何做出財務決策？</h3>
+                <h3>1. 您如何做出財務決策？</h3>
                 <div><input type="radio" name="decisionWealth" value="7"> 我擁有專業團隊，負責投資╱對沖決策。</div>
                 <div><input type="radio" name="decisionWealth" value="5"> 自己擁有專業知識，可進行投資╱對沖決策。</div>
                 <div><input type="radio" name="decisionWealth" value="3"> 我做一些研究並運用常識。</div>
@@ -91,40 +92,40 @@
 
             <div class="question">
                 <h3>2. 您在投資方面有多少經驗？</h3>
-                <div><input type="radio" name="businessExp" value="0"> 完全沒有</div>
-                <div><input type="radio" name="businessExp" value="2"> 剛剛起步</div>
-                <div><input type="radio" name="businessExp" value="3"> 有幾年經驗</div>
-                <div><input type="radio" name="businessExp" value="4"> 經驗豐富</div>
-				<div><input type="radio" name="businessExp" value="5"> 投資老手</div>
+                <div><input type="radio" name="investmentExp" value="0"> 完全沒有</div>
+                <div><input type="radio" name="investmentExp" value="2"> 剛剛起步</div>
+                <div><input type="radio" name="investmentExp" value="3"> 有幾年經驗</div>
+                <div><input type="radio" name="investmentExp" value="4"> 經驗豐富</div>
+                <div><input type="radio" name="investmentExp" value="5"> 投資老手</div>
             </div>
 
             <div class="question">
                 <h3>3. 過去 24 個月曾持有過哪些投資產品？</h3>
-                <div><input type="radio" name="businessExp" value="9"> 期貨╱期權╱合約</div>
-                <div><input type="radio" name="businessExp" value="7"> 股票（非藍籌）╱對沖基金</div>
-                <div><input type="radio" name="businessExp" value="5"> 股票（藍籌）╱均衡基金</div>
-                <div><input type="radio" name="businessExp" value="3"> 債券╱外幣</div>
-				<div><input type="radio" name="businessExp" value="1"> 定期╱保本型投資產品</div>
-				<div><input type="radio" name="businessExp" value="1"> 過去 24 個月未持有以上投資產品，但有投資經驗</div>
-				<div><input type="radio" name="businessExp" value="0"> 從不投資</div>
+                <div><input type="radio" name="investmentProducts" value="9"> 期貨╱期權╱合約</div>
+                <div><input type="radio" name="investmentProducts" value="7"> 股票（非藍籌）╱對沖基金</div>
+                <div><input type="radio" name="investmentProducts" value="5"> 股票（藍籌）╱均衡基金</div>
+                <div><input type="radio" name="investmentProducts" value="3"> 債券╱外幣</div>
+                <div><input type="radio" name="investmentProducts" value="1"> 定期╱保本型投資產品</div>
+                <div><input type="radio" name="investmentProducts" value="1"> 過去 24 個月未持有以上投資產品，但有投資經驗</div>
+                <div><input type="radio" name="investmentProducts" value="0"> 從不投資</div>
             </div>
 
             <div class="question">
                 <h3>4. 假設您收到了一筆突如其來的獎金(如六合彩)，您用多少進行投資？</h3>
-                <div><input type="radio" name="proportionInvest" value="1"> 少於 10%</div>
-                <div><input type="radio" name="proportionInvest" value="2"> 10% - 20%</div>
-                <div><input type="radio" name="proportionInvest" value="3"> 21% - 30%</div>
-                <div><input type="radio" name="proportionInvest" value="4"> 31% - 50%</div>
-                <div><input type="radio" name="proportionInvest" value="5"> 多於 50%</div>
+                <div><input type="radio" name="bonusInvestment" value="1"> 少於 10%</div>
+                <div><input type="radio" name="bonusInvestment" value="2"> 10% - 20%</div>
+                <div><input type="radio" name="bonusInvestment" value="3"> 21% - 30%</div>
+                <div><input type="radio" name="bonusInvestment" value="4"> 31% - 50%</div>
+                <div><input type="radio" name="bonusInvestment" value="5"> 多於 50%</div>
             </div>
 
             <div class="question">
                 <h3>5. 您有一筆閒置資金(如定期存款到期)，您用多少進行投資？</h3>
-                <div><input type="radio" name="proportionInvest" value="1"> 少於 10%</div>
-                <div><input type="radio" name="proportionInvest" value="2"> 10% - 20%</div>
-                <div><input type="radio" name="proportionInvest" value="3"> 21% - 30%</div>
-                <div><input type="radio" name="proportionInvest" value="5"> 31% - 50%</div>
-                <div><input type="radio" name="proportionInvest" value="5"> 多於 50%</div>
+                <div><input type="radio" name="idleInvestment" value="1"> 少於 10%</div>
+                <div><input type="radio" name="idleInvestment" value="2"> 10% - 20%</div>
+                <div><input type="radio" name="idleInvestment" value="3"> 21% - 30%</div>
+                <div><input type="radio" name="idleInvestment" value="5"> 31% - 50%</div>
+                <div><input type="radio" name="idleInvestment" value="5"> 多於 50%</div>
             </div>
 
             <div class="question">
@@ -134,7 +135,7 @@
                 <div><input type="radio" name="contingency" value="3"> 半年的開支儲備</div>
                 <div><input type="radio" name="contingency" value="5"> 一年或更多的開支儲備</div>
                 <div><input type="radio" name="contingency" value="5"> 完全準備應對任何情況</div>
-				</div>
+            </div>
 
             <div class="question">
                 <h3>7. 您的理想投資時間範圍是多久？</h3>
@@ -158,7 +159,7 @@
         </form>
 
         <div id="result" class="result">
-            <h2>你的投資心理探索結果</h2>
+            <h2>你的投資人格探索結果</h2>
             <h3>您的總分：<span id="totalScore"></span>/53</h3>
             <h3 id="investorType"></h3>
             <h3 id="resultText"></h3>
@@ -174,9 +175,7 @@
             let score = 0;
 
             formData.forEach((value, key) => {
-                if (key.match(/^(age|decisionWealth|businessExp|proportionInvest|stockRise|stockFall|contingency|timeInvest|styleInvest|investmentGoal)$/)) {
-                    score += parseInt(value);
-                }
+                score += parseInt(value);
             });
 
             const resultText = document.getElementById('resultText');
@@ -193,7 +192,7 @@
             } else if (score <= 23) {
                 type = '低至中風險取向';
                 story = '你是深思熟慮的烏龜，您以衡量步伐平衡風險與回報。';
-                imageUrl = 'Turtle.jpeg';  // Example image URL
+                imageUrl = 'Turtle.jpg';  // Example image URL
             } else if (score <= 33) {
                 type = '中風險取向';
                 story = '你是均衡的熊，您追求穩定增長並接受一定風險。';
