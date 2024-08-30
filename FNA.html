@@ -121,14 +121,15 @@
         <form id="retirementForm">
             <div class="question">
                 <h3>個人資料</h3>
-				<br>歡迎使用儲蓄計劃助手！停一停，想一想！</br>
-                <label for="dream">先思考一下，您的儲蓄目標目標是什麼嗎？</label>
-                <h3><input type="word" id="nextDream" name="nextDream" min="0" required placeholder="輸入你的目標"></h3>
+				<br>歡迎使用儲蓄計劃助手！</br>
+                <h3>停一停，想一想！先思考一下，您的儲蓄目標是什麼嗎？</h3>
+                <div><input type="radio" name="interestByYear"> 建立一份屬於自己的「被動收入計劃」</div>
+                <div><input type="radio" name="saving"> 我有一個願望，想要儲一筆錢 (請跳至 C 部分)</div>
 
             </div>
 
             <div class="question">
-                <h3>派息計劃 (如不適用，請填寫「0」)</h3>
+                <h3>派息計劃 </h3>
                 <label for="retirementAge">派息開始年齡:</label>
                 <input type="number" id="retirementAge" name="retirementAge" min="0" required placeholder="輸入開始年齡">
 
@@ -137,9 +138,9 @@
             </div>
 
             <div class="question">
-                <h3>儲蓄目標</h3>
+                <h3>被動收入計劃</h3>
                 <h4>A) 持續性開支</h4>
-                <label for="monthlyExpenses">你期望每月想有幾多錢生活? (每月被動收入):</label>
+                <label for="monthlyExpenses">你期望「自己」每月想有幾多錢生活? (每月被動收入):</label>
                 <input type="number" id="monthlyExpenses" name="monthlyExpenses" min="0" required placeholder="輸入每月生活費">
                 <small>可參考現時生活水平，作出調整</small>
 
@@ -160,20 +161,23 @@
 
                 <label for="educationFund">升學基金 (如海外升學):</label>
                 <input type="number" id="educationFund" name="educationFund" min="0" required placeholder="輸入升學基金">
-
-                <label for="otherExpenses">其他 (你的願望！):</label>
-                <input type="number" id="otherExpenses" name="otherExpenses" min="0" placeholder="輸入其他費用">
             </div>
 
             <div class="question">
-                <h3>退休後資產</h3>
-                <label for="currentAssets">現有資產 (港幣 HKD):</label>
+                <h4>C) 你的下一個願望</h4>
+                <label for="otherExpenses">你需要多少金錢去實現願望:</label>
+                <input type="number" id="otherExpenses" name="otherExpenses" min="0" placeholder="輸入其他費用">
+            </div>
+			
+            <div class="question">
+                <h3>資產與收入</h3>
+                <label for="currentAssets">現有資產 (請不要計算傳承下一代的資產):</label>
                 <input type="number" id="currentAssets" name="currentAssets" min="0" required placeholder="輸入現有資產">
 
-                <label for="monthlyIncome">其他每月收入 (港幣 HKD):</label>
+                <label for="monthlyIncome">其他每月收入 (如年金、公務員長俸):</label>
                 <input type="number" id="monthlyIncome" name="monthlyIncome" min="0" required placeholder="輸入退休後每月收入">
 
-                <label for="incomeGrowthRate">收入年增長率 (%):</label>
+                <label for="incomeGrowthRate">收入年增長率 :</label>
                 <input type="number" id="incomeGrowthRate" name="incomeGrowthRate" min="0" step="0.1" required placeholder="輸入收入年增長率">
             </div>
 
@@ -194,7 +198,7 @@
             </div>
             <canvas id="totalExpensesOverTimeChart"></canvas>
             <div class="card">
-                <h3>比較</h3>
+                <h3>通脹影響有幾大？</h3>
                 <p id="comparison"></p>
             </div>
             <div class="card">
@@ -263,9 +267,8 @@
             const comparison = document.getElementById('comparison');
             const formula = document.getElementById('formula');
 
-            totalAmount.innerHTML = `在通脹影響下，您的退休計劃實際需要 ${formatNumber(Math.round(totalExpenses))} 港幣`;
-            monthlyPassiveIncome.innerHTML = `每月需要的被動收入約為 ${formatNumber(Math.round(totalExpenses / (retirementYears * 12)))} 港幣`;
-            comparison.innerHTML = `包括通脹的累積開支: ${formatNumber(Math.round(totalExpenses))} 港幣<br>減去通脹的累積退休開支: ${formatNumber(zeroInflationTotalExpenses)} 港幣<br>差距: ${formatNumber(totalExpenses - zeroInflationTotalExpenses)} 港幣`;
+            totalAmount.innerHTML = `在通脹影響下，您的儲蓄計劃實際需要 ${formatNumber(Math.round(totalExpenses))} 港幣`;
+            comparison.innerHTML = `包括通脹的累積開支: ${formatNumber(Math.round(totalExpenses))} 港幣<br>減去通脹的累積開支: ${formatNumber(Math.round(zeroInflationTotalExpenses))} 港幣<br>差距: ${formatNumber(Math.round(totalExpenses - zeroInflationTotalExpenses))} 港幣`;
 
             formula.innerHTML = `
 總退休計劃金額運算如下:
