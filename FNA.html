@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>退休計劃助手</title>
+    <title>儲蓄計劃助手</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -116,40 +116,37 @@
 </head>
 <body>
     <div class="container">
-        <h2>退休計算機</h2>
-        <div class="intro">
-            歡迎使用退休計劃助手！想像一下，您夢想中的退休生活是怎樣的呢？<br>
-            是維持現在的生活品質，還是希望過上更加豐富多彩的生活？<br>
-            讓我們一起來計算一下，看看您需要怎樣的財務安排來實現這個夢想吧！
-        </div>
+        <h2>儲蓄目標計算機</h2>
 
         <form id="retirementForm">
             <div class="question">
                 <h3>個人資料</h3>
-                <label for="currentAge">現今年齡:</label>
-                <input type="number" id="currentAge" name="currentAge" min="0" required placeholder="輸入您的年齡">
+				<br>歡迎使用儲蓄計劃助手！停一停，想一想！</br>
+                <label for="dream">先思考一下，您的儲蓄目標目標是什麼嗎？</label>
+                <h3><input type="word" id="nextDream" name="nextDream" min="0" required placeholder="輸入你的目標"></h3>
+
             </div>
 
             <div class="question">
-                <h3>退休計劃</h3>
-                <label for="retirementAge">預計退休年齡:</label>
-                <input type="number" id="retirementAge" name="retirementAge" min="0" required placeholder="輸入退休年齡">
+                <h3>派息計劃 (如不適用，請填寫「0」)</h3>
+                <label for="retirementAge">派息開始年齡:</label>
+                <input type="number" id="retirementAge" name="retirementAge" min="0" required placeholder="輸入開始年齡">
 
-                <label for="endOfLifeAge">預計壽命年齡:</label>
-                <input type="number" id="endOfLifeAge" name="endOfLifeAge" min="0" required placeholder="輸入預計壽命">
+                <label for="endOfLifeAge">派息結束年齡:</label>
+                <input type="number" id="endOfLifeAge" name="endOfLifeAge" min="0" required placeholder="輸入結束年齡">
             </div>
 
             <div class="question">
-                <h3>退休後開支</h3>
-                <h4>A) 每年開支</h4>
-                <label for="monthlyExpenses">你退休後每月想有幾多錢生活? (港幣 HKD):</label>
+                <h3>儲蓄目標</h3>
+                <h4>A) 持續性開支</h4>
+                <label for="monthlyExpenses">你期望每月想有幾多錢生活? (每月被動收入):</label>
                 <input type="number" id="monthlyExpenses" name="monthlyExpenses" min="0" required placeholder="輸入每月生活費">
                 <small>可參考現時生活水平，作出調整</small>
 
-                <label for="annualTravelExpenses">每年娛樂費用，如旅行 (港幣 HKD):</label>
+                <label for="annualTravelExpenses">每年娛樂費用 (如旅行、裝備等):</label>
                 <input type="number" id="annualTravelExpenses" name="annualTravelExpenses" min="0" required placeholder="輸入每年旅行費用">
 
-                <label for="annualChildExpenses">每年家庭支出 (港幣 HKD):</label>
+                <label for="annualChildExpenses">每年家庭額外支出 (如撫養子女、供養父母):</label>
                 <input type="number" id="annualChildExpenses" name="annualChildExpenses" min="0" required placeholder="輸入每年子女支出">
 
                 <label for="childSupportYears">供養年期 (年):</label>
@@ -157,14 +154,14 @@
             </div>
 
             <div class="question">
-                <h4>B) 大額開支</h4>
-                <label for="medicalExpenses">醫療 (港幣 HKD):</label>
+                <h4>B) 大額度開支</h4>
+                <label for="medicalExpenses">醫療 (如有保險，可忽略):</label>
                 <input type="number" id="medicalExpenses" name="medicalExpenses" min="0" required placeholder="輸入醫療費用">
 
-                <label for="educationFund">升學基金 (港幣 HKD):</label>
+                <label for="educationFund">升學基金 (如海外升學):</label>
                 <input type="number" id="educationFund" name="educationFund" min="0" required placeholder="輸入升學基金">
 
-                <label for="otherExpenses">其他 (港幣 HKD):</label>
+                <label for="otherExpenses">其他 (你的願望！):</label>
                 <input type="number" id="otherExpenses" name="otherExpenses" min="0" placeholder="輸入其他費用">
             </div>
 
@@ -173,7 +170,7 @@
                 <label for="currentAssets">現有資產 (港幣 HKD):</label>
                 <input type="number" id="currentAssets" name="currentAssets" min="0" required placeholder="輸入現有資產">
 
-                <label for="monthlyIncome">退休後每月收入 (港幣 HKD):</label>
+                <label for="monthlyIncome">其他每月收入 (港幣 HKD):</label>
                 <input type="number" id="monthlyIncome" name="monthlyIncome" min="0" required placeholder="輸入退休後每月收入">
 
                 <label for="incomeGrowthRate">收入年增長率 (%):</label>
@@ -266,13 +263,13 @@
             const comparison = document.getElementById('comparison');
             const formula = document.getElementById('formula');
 
-            totalAmount.innerHTML = `在通脹影響下，您的退休計劃實際需要 ${formatNumber(totalExpenses)} 港幣`;
-            monthlyPassiveIncome.innerHTML = `每月需要的被動收入約為 ${formatNumber(totalExpenses / (retirementYears * 12))} 港幣`;
-            comparison.innerHTML = `包括通脹的累積開支: ${formatNumber(totalExpenses)} 港幣<br>減去通脹的累積退休開支: ${formatNumber(zeroInflationTotalExpenses)} 港幣<br>差距: ${formatNumber(totalExpenses - zeroInflationTotalExpenses)} 港幣`;
+            totalAmount.innerHTML = `在通脹影響下，您的退休計劃實際需要 ${formatNumber(Math.round(totalExpenses))} 港幣`;
+            monthlyPassiveIncome.innerHTML = `每月需要的被動收入約為 ${formatNumber(Math.round(totalExpenses / (retirementYears * 12)))} 港幣`;
+            comparison.innerHTML = `包括通脹的累積開支: ${formatNumber(Math.round(totalExpenses))} 港幣<br>減去通脹的累積退休開支: ${formatNumber(zeroInflationTotalExpenses)} 港幣<br>差距: ${formatNumber(totalExpenses - zeroInflationTotalExpenses)} 港幣`;
 
             formula.innerHTML = `
 總退休計劃金額運算如下:
-每年開支的現值總和 * (1 + 年通脹率)^退休生活年期 + 醫療開支 + 升學基金 + 其他開支 - 退休後每月收入 * (1 + 其年增長率)^退休生活年期 - 現有資產
+每年持續性開支 * (1 + 年通脹率)^生活年期 + 大額度開支 - 其他每月收入 * (1 + 其年增長率)^生活年期 - 現有資產
 `;
 
             document.getElementById('result').style.display = 'flex';
@@ -323,7 +320,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return formatNumber(context.raw) + ' 港幣';
+                                    return formatNumber(Math.round(context.raw)) + ' 港幣';
                                 }
                             }
                         }
